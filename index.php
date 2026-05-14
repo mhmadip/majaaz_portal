@@ -695,7 +695,10 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
       <div id="admin-evaluations" class="dash-tab">
         <div class="ph" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
           <div><div class="ph-title">📋 <span data-i18n="evaluations">التقييمات</span></div><div class="ph-sub" data-i18n="jury_evals_sub">تقييمات أعضاء اللجنة</div></div>
-          <button class="btn btn-ghost btn-sm" id="btn-export-csv" style="flex-shrink:0;">⬇ CSV</button>
+          <button class="btn btn-success" id="btn-export-csv" style="flex-shrink:0;gap:7px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span data-i18n="export_csv">تصدير CSV</span>
+          </button>
         </div>
         <div id="admin-evals-list"></div>
       </div>
@@ -1168,6 +1171,7 @@ var STRINGS = {
     preview_read_only: 'معاينة فقط — لا يمكن التفاعل معها',
     drag_reorder: 'اسحب لإعادة الترتيب',
     confirm_ok: 'تأكيد', confirm_reset: 'إعادة', confirm_cancel_action: 'إلغاء التقييم',
+    export_csv: 'تصدير CSV',
   },
   en: {
     brand: 'Majaaz',
@@ -1297,6 +1301,7 @@ var STRINGS = {
     preview_read_only: 'Preview only — interaction disabled',
     drag_reorder: 'Drag to reorder',
     confirm_ok: 'Confirm', confirm_reset: 'Reset', confirm_cancel_action: 'Cancel Evaluation',
+    export_csv: 'Export CSV',
   }
 };
 var LANG = 'ar';
