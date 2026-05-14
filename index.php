@@ -1,6 +1,7 @@
 <?php
 // Majaaz Portal - Production index.php
 // All API calls go to api/ subdirectory
+$logoB64 = 'data:image/png;base64,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';
 ?>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" id="root-html">
@@ -422,6 +423,48 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
   .modal-ft .btn{width:100%;}
 }
 
+/* ═══════════ SVG NAV ICONS ═══════════ */
+.nav-icon svg{display:block;}
+.nav-btn:hover .nav-icon svg,.nav-btn.active .nav-icon svg{stroke:currentColor;}
+
+/* ═══════════ MOBILE SIDEBAR ═══════════ */
+@media(max-width:960px){
+  .nav-icon{display:flex;width:18px;height:18px;background:transparent;border-radius:0;font-size:0;align-items:center;justify-content:center;}
+  .nav-btn{gap:5px;}
+}
+
+/* ═══════════ SKELETON CARDS ═══════════ */
+@keyframes shimmer{0%{background-position:-600px 0}100%{background-position:600px 0}}
+.skel{background:linear-gradient(90deg,var(--s3) 25%,var(--s4) 50%,var(--s3) 75%);background-size:1200px 100%;animation:shimmer 1.6s infinite linear;border-radius:var(--rsm);}
+.skel-card{background:var(--s2);border:1px solid var(--b1);border-radius:var(--rxl);overflow:hidden;pointer-events:none;}
+.skel-img{height:135px;width:100%;}
+.skel-pub-img{height:200px;width:100%;}
+.skel-body{padding:12px 14px;display:flex;flex-direction:column;gap:9px;}
+.skel-line{height:13px;width:100%;}
+.skel-line.short{width:58%;}
+.skel-line.xshort{width:36%;}
+
+/* ═══════════ EVAL STICKY BAR ═══════════ */
+#eval-action-bar{position:fixed;bottom:0;left:0;right:0;padding:11px 28px;background:rgba(4,7,11,.95);backdrop-filter:blur(16px);border-top:1px solid var(--b2);display:none;justify-content:center;z-index:150;box-shadow:0 -4px 28px rgba(0,0,0,.5);}
+#eval-action-bar.visible{display:flex;}
+.eval-bar-inner{display:flex;gap:10px;width:100%;max-width:820px;}
+.eval-bar-inner .btn{flex:1;padding:12px;}
+.eval-bar-hint{font-size:11px;color:var(--t3);align-self:center;white-space:nowrap;flex-shrink:0;}
+.eval-form-padded{padding-bottom:90px!important;}
+
+/* ═══════════ SEARCH ═══════════ */
+.search-box{padding:8px 13px;background:var(--s3);border:1.5px solid var(--b2);border-radius:var(--rmd);color:var(--t1);font-family:'Noto Naskh Arabic',serif;font-size:12px;outline:none;transition:border-color .18s;}
+.search-box:focus{border-color:var(--cyan);}
+.search-box::placeholder{color:var(--t3);}
+[lang="en"] .search-box{font-family:'Inter',sans-serif;}
+
+/* ═══════════ UPLOAD PROGRESS ═══════════ */
+.upload-prog-wrap{margin-top:10px;display:none;}
+.upload-prog-wrap.visible{display:block;}
+.upload-prog-track{height:3px;background:var(--s4);border-radius:2px;overflow:hidden;}
+.upload-prog-fill{height:100%;background:linear-gradient(90deg,var(--cyan2),var(--cyan));border-radius:2px;width:0%;transition:width .25s ease;}
+.upload-prog-lbl{font-size:11px;color:var(--cyan);margin-top:5px;font-family:'IBM Plex Mono',monospace;}
+
 
 /* ═══════════ i18n OVERRIDES ═══════════ */
 [lang="en"] body { font-family: 'Inter', 'Segoe UI', sans-serif; }
@@ -483,7 +526,7 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
 <div id="view-public" class="view active">
   <nav class="pub-nav">
     <div class="brand" id="logo-home">
-      <div class="brand-icon"><img src="data:image/png;base64,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" style="width:100%;height:100%;object-fit:contain;"></div>
+      <div class="brand-icon"><img src="<?= $logoB64 ?>" style="width:100%;height:100%;object-fit:contain;"></div>
       <div><div class="brand-name" data-i18n="brand">مجاز</div><span class="brand-sub">MAJAAZ 2026</span></div>
     </div>
     <div style="display:flex;align-items:center;gap:10px;">
@@ -504,7 +547,7 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
     </div>
   </div>
   <section class="pub-section">
-    <div class="sec-bar"><div class="sec-heading" data-i18n="all_projects">جميع المشاريع</div></div>
+    <div class="sec-bar"><div class="sec-heading" data-i18n="all_projects">جميع المشاريع</div><input type="text" class="search-box" id="pub-search" data-i18n-ph="search_ph" placeholder="بحث..."></div>
     <div class="pub-grid" id="pub-grid"></div>
     <div class="empty" id="pub-empty" style="display:none;">
       <span class="empty-icon">🏛</span>
@@ -518,7 +561,7 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
 <div id="view-project-detail" class="view">
   <nav class="pub-nav">
     <div class="brand" id="detail-logo-home">
-      <div class="brand-icon"><img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCABzAHMDASIAAhEBAxEB/8QAHAABAAICAwEAAAAAAAAAAAAAAAUHBAYBAggD/8QAOBAAAQMEAAUBBQQJBQAAAAAAAQACAwQFBhEHEiExQVEIE2FxgRQVIlIjMjNCcoKRkqIWQ1Oxwf/EABsBAQACAwEBAAAAAAAAAAAAAAADBAIFBwYB/8QAMhEAAQMCBQMBBgUFAAAAAAAAAQACAwQRBRIhMUETUWFxBhUygZGhFCIzQvBDY7HR4f/aAAwDAQACEQMRAD8A8ZIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIi2HD8LyTLJHiy2580UZ1JO9wZEw+hc7pv4Dqsmsc82aLlQz1EVPGZJnBrRyTYLXkW/XjhDndtpnVBtLKtjRtwpJ2yuA/hB2foCtEmjkhldFLG6ORh05rhotPoR4WUkT49HiyhpMQpawE08gfbsQV0REUauIiIiIiIiIiIiIiIiIiIiIrG4dcUavDsRuFpgpftVRJOJKMyn9FDsaeSO57NIHTz9a5RSRSvidmYbFUq/D6fEIujUNzNuDb0/n0Vgw8ZM/jqffOu0Mrebfun0kXJ8ujQdfVTVyvVj4q0DqeqoYbVmUbN0s0XSKvIH7Ik9Q4/u7310AeulB8GcJteZXKtjul1bSx00JcII3gTSEg/jG+nK3ufp2HVafcI22m/TR2+4x1baSoIhq4QQ2Tld0e3fXxtWurMIw6Q3a7uf5ZaL3fhj6t0VG3pzRAG7W2GuwNrBwPIPG2u2C9rmOLXAtcDogjRBXC3zjfaoqPK4bvSxiOmvdHFcWtaNBr3j9IB/Ns/zLQ1VljMby08Lf0FW2spmTt0zC/oeR8joiIijVtERERERERERERERERERTGGWKoyXJ6CyUx5X1Uoa5+v1GDq530aCV9a0uIA3KjmlZDG6SQ2a0XJ8BTPDnAcizCaSW18tLSRHklrJnFrASOrRrq46PUDweutrpxHwK7YTXQRVb21dLUN3DVQsIY53lnXs4enp1V28TsxoOGmN0WPY7TRNrnQ6pmOALYIwdGRw/ecTvv3OyfQ1xwtnyzP8vZSXe83CstML21VfHLKTEQ1wLW8vYEuAGhrptbOSmhZaAXLz9AvD0eN4lUB+JvDWUovYH4iBzfvfYbHbys/2j6Q0VswulcAJILc6F38rYh/3tU4vR2WUmNZ5xhmxm8T1YNvt4EH2eUMBm5ueVp2Dshrh2/KVnVfCHh/abdUV9TFUOZTxOeXVddyx7AOuYjl6b15Uk9E+eVz2EW2+miqYT7UU2E0MNNVNd1CM2g3zkkWuR3XmNFy47cToDfgLhaddHRERERERERERERERERXP7LFrZLfbveZW6FLTthY89gZDtx/tYf6qmFfnCLdl4D5Heeblkm+0uY7+GMRt/yJV7D2gzhx4uV5b2xlcMMdEzeQtYPmf9XVa5DLdeI/EyqNsidUS1lQWUzd/hjhb0aSfDQ0bJ+auuslsvBrh0IacsqLpUb5CR1qajXV5HiNvp6aHdyweFNotnDzhxNmF6HLV1cAmf8AmbGf2cTd/vO6E/MflWvcNqK58T8/lzDIWA223PAhg/2+cdWRNHkN/WcfJ1vursLHR2P9R/2HdeWxGpirQ5h/LRU1gf7jhoGjxx9+RbZOHFipMHxmtzzMXn72qmmaV8g3JE152GAf8jyevzA6aKpriLnl6zK4vfVTPgt7Xk09Ex36OMeCfzO9XH6aC9A8QsIuOc3WGC5XUUFipDzRwQN55qiQj8T3E/hbrsO/k+V0/wBK8NeH9r+8q6ho42sOhUVo9/K92uzGnufg0KWelkc3ptOVg5PPlUcLx6ihm/GTNM1S/ZrRowcNF+bdr223vfyqWuABIIB6jY7rhWfxjz7GcxpaaC3WSrhqKRxEFXI9kY5CerTGAdjyOo0fqFWC0kzGsfZrrjuupYdUzVVOJJ4jG4/tJB+4/wCIiIoleRERERERERTOD2YZBl1rsznFjKupZG9w7hm9uI+OgVDKUxO8S2DJbfeoWCR1HUNl5CdcwB6j6jYWceXOM2yr1YlMDxD8djb1tp91P8ZsdpcZz6soKBsbKOVrKiCJrifdMcP1TvyCD9NFWaIBRezVbKJ7zH94zQscfhLUlx/xaorJ8DufEfMBlVkrKV9iuQiInfMOeANY1r2FnfmaQeny69VI+0jXUVnxWw4nb3chjc2VrAerIomFjCfmSf7Sts2PpdWW1mkEDzfsufS1or/d9AH5pWlrn92lg1DvN739Fie1NdzHU2jGad3JBDGamRg7HqWR/wBA139VsGHZ3imJcILNUlrmyujextHGQZZp2uIkcfRpPXmPggddaWgZ1SXjiTQ2vLrHb5a6WKjbRXKCAcz4Z2EnfL3LXB2wRvyPC7cOOD9+ut1hqMkoprba43B0jJfwyzD8jW9wD5J18NlBLMalz4m3zDQ8WWDqHDG4LFT10uXpEl7QRmLtbi2+t9D220N1beG5Nc6jFqvOsrmZb7a6MvpKKJv4Y4QejyT1e950B49ANqj7nLlPF7NJn0NOXMiY4wwuk5YqWIdgXHpsnXXyT6dtm9o3MIaiphw20PY2joSDV+66NMgGmxjXhg8ep+CrzCczv+H1E8tlqmxtqGcssUjOeNx0eV2j5G9g/wDmwsKuoaXiFxJaNz3Ks+z+DTR0smIwRtbM/wDTadmt483I1J3Ol9yoW5UNXba+agr6aWmqoHlksUjdOafQhY6+9fWVVfWzVtbUSVFTM4vklkdtzifJK+C1RtfRdAjz5Bn35ttfwiIi+LNERERERERERERTeM5XkWNe9Fju9TRNl6yMYQWuPqWnY38dLAvFzuF4uEtwulZNV1Up2+WV23H0+nwWGiyL3FuUnRQNpoWymZrAHnc2Fz891O4Zll7xG5OrbLVCMvHLLE9vNHKB2Dm+fn3Hgrb7/wAa8xudC6kpzRWznGny0kbhIfXTnE8v00fiqzRSMqJWNytcQFTqcGoKqYTzQtc8ckf57/Ncuc5zi5xLnE7JJ6krhEUK2aIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIi//2Q==" style="width:100%;height:100%;object-fit:contain;"></div>
+      <div class="brand-icon"><img src="<?= $logoB64 ?>" style="width:100%;height:100%;object-fit:contain;"></div>
       <div><div class="brand-name">مجاز</div><span class="brand-sub">MAJAAZ 2026</span></div>
     </div>
     <button class="back-btn" id="detail-back"><span class="back-btn-arrow">←</span> <span data-i18n="back_projects">العودة للمشاريع</span></button>
@@ -534,7 +577,7 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
   <form id="login-form" class="auth-card" style="animation:mIn .3s ease;" autocomplete="on">
     <div style="text-align:center;margin-bottom:24px;">
       <div class="brand-icon" style="width:48px;height:48px;margin:0 auto 10px;background:#000;border-radius:9px;overflow:hidden;padding:3px;">
-        <img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCABzAHMDASIAAhEBAxEB/8QAHAABAAICAwEAAAAAAAAAAAAAAAUHBAYBAggD/8QAOBAAAQMEAAUBBQQJBQAAAAAAAQACAwQFBhEHEiExQVEIE2FxgRQVIlIjMjNCcoKRkqIWQ1Oxwf/EABsBAQACAwEBAAAAAAAAAAAAAAADBAIFBwYB/8QAMhEAAQMCBQMBBgUFAAAAAAAAAQACAwQRBRIhMUETUWFxBhUygZGhFCIzQvBDY7HR4f/aAAwDAQACEQMRAD8A8ZIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIi2HD8LyTLJHiy2580UZ1JO9wZEw+hc7pv4Dqsmsc82aLlQz1EVPGZJnBrRyTYLXkW/XjhDndtpnVBtLKtjRtwpJ2yuA/hB2foCtEmjkhldFLG6ORh05rhotPoR4WUkT49HiyhpMQpawE08gfbsQV0REUauIiIiIiIiIiIiIiIiIiIiIrG4dcUavDsRuFpgpftVRJOJKMyn9FDsaeSO57NIHTz9a5RSRSvidmYbFUq/D6fEIujUNzNuDb0/n0Vgw8ZM/jqffOu0Mrebfun0kXJ8ujQdfVTVyvVj4q0DqeqoYbVmUbN0s0XSKvIH7Ik9Q4/u7310AeulB8GcJteZXKtjul1bSx00JcII3gTSEg/jG+nK3ufp2HVafcI22m/TR2+4x1baSoIhq4QQ2Tld0e3fXxtWurMIw6Q3a7uf5ZaL3fhj6t0VG3pzRAG7W2GuwNrBwPIPG2u2C9rmOLXAtcDogjRBXC3zjfaoqPK4bvSxiOmvdHFcWtaNBr3j9IB/Ns/zLQ1VljMby08Lf0FW2spmTt0zC/oeR8joiIijVtERERERERERERERERERTGGWKoyXJ6CyUx5X1Uoa5+v1GDq530aCV9a0uIA3KjmlZDG6SQ2a0XJ8BTPDnAcizCaSW18tLSRHklrJnFrASOrRrq46PUDweutrpxHwK7YTXQRVb21dLUN3DVQsIY53lnXs4enp1V28TsxoOGmN0WPY7TRNrnQ6pmOALYIwdGRw/ecTvv3OyfQ1xwtnyzP8vZSXe83CstML21VfHLKTEQ1wLW8vYEuAGhrptbOSmhZaAXLz9AvD0eN4lUB+JvDWUovYH4iBzfvfYbHbys/2j6Q0VswulcAJILc6F38rYh/3tU4vR2WUmNZ5xhmxm8T1YNvt4EH2eUMBm5ueVp2Dshrh2/KVnVfCHh/abdUV9TFUOZTxOeXVddyx7AOuYjl6b15Uk9E+eVz2EW2+miqYT7UU2E0MNNVNd1CM2g3zkkWuR3XmNFy47cToDfgLhaddHRERERERERERERERERXP7LFrZLfbveZW6FLTthY89gZDtx/tYf6qmFfnCLdl4D5Heeblkm+0uY7+GMRt/yJV7D2gzhx4uV5b2xlcMMdEzeQtYPmf9XVa5DLdeI/EyqNsidUS1lQWUzd/hjhb0aSfDQ0bJ+auuslsvBrh0IacsqLpUb5CR1qajXV5HiNvp6aHdyweFNotnDzhxNmF6HLV1cAmf8AmbGf2cTd/vO6E/MflWvcNqK58T8/lzDIWA223PAhg/2+cdWRNHkN/WcfJ1vursLHR2P9R/2HdeWxGpirQ5h/LRU1gf7jhoGjxx9+RbZOHFipMHxmtzzMXn72qmmaV8g3JE152GAf8jyevzA6aKpriLnl6zK4vfVTPgt7Xk09Ex36OMeCfzO9XH6aC9A8QsIuOc3WGC5XUUFipDzRwQN55qiQj8T3E/hbrsO/k+V0/wBK8NeH9r+8q6ho42sOhUVo9/K92uzGnufg0KWelkc3ptOVg5PPlUcLx6ihm/GTNM1S/ZrRowcNF+bdr223vfyqWuABIIB6jY7rhWfxjz7GcxpaaC3WSrhqKRxEFXI9kY5CerTGAdjyOo0fqFWC0kzGsfZrrjuupYdUzVVOJJ4jG4/tJB+4/wCIiIoleRERERERERTOD2YZBl1rsznFjKupZG9w7hm9uI+OgVDKUxO8S2DJbfeoWCR1HUNl5CdcwB6j6jYWceXOM2yr1YlMDxD8djb1tp91P8ZsdpcZz6soKBsbKOVrKiCJrifdMcP1TvyCD9NFWaIBRezVbKJ7zH94zQscfhLUlx/xaorJ8DufEfMBlVkrKV9iuQiInfMOeANY1r2FnfmaQeny69VI+0jXUVnxWw4nb3chjc2VrAerIomFjCfmSf7Sts2PpdWW1mkEDzfsufS1or/d9AH5pWlrn92lg1DvN739Fie1NdzHU2jGad3JBDGamRg7HqWR/wBA139VsGHZ3imJcILNUlrmyujextHGQZZp2uIkcfRpPXmPggddaWgZ1SXjiTQ2vLrHb5a6WKjbRXKCAcz4Z2EnfL3LXB2wRvyPC7cOOD9+ut1hqMkoprba43B0jJfwyzD8jW9wD5J18NlBLMalz4m3zDQ8WWDqHDG4LFT10uXpEl7QRmLtbi2+t9D220N1beG5Nc6jFqvOsrmZb7a6MvpKKJv4Y4QejyT1e950B49ANqj7nLlPF7NJn0NOXMiY4wwuk5YqWIdgXHpsnXXyT6dtm9o3MIaiphw20PY2joSDV+66NMgGmxjXhg8ep+CrzCczv+H1E8tlqmxtqGcssUjOeNx0eV2j5G9g/wDmwsKuoaXiFxJaNz3Ks+z+DTR0smIwRtbM/wDTadmt483I1J3Ol9yoW5UNXba+agr6aWmqoHlksUjdOafQhY6+9fWVVfWzVtbUSVFTM4vklkdtzifJK+C1RtfRdAjz5Bn35ttfwiIi+LNERERERERERERTeM5XkWNe9Fju9TRNl6yMYQWuPqWnY38dLAvFzuF4uEtwulZNV1Up2+WV23H0+nwWGiyL3FuUnRQNpoWymZrAHnc2Fz891O4Zll7xG5OrbLVCMvHLLE9vNHKB2Dm+fn3Hgrb7/wAa8xudC6kpzRWznGny0kbhIfXTnE8v00fiqzRSMqJWNytcQFTqcGoKqYTzQtc8ckf57/Ncuc5zi5xLnE7JJ6krhEUK2aIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIi//2Q==" style="width:100%;height:100%;object-fit:contain;">
+        <img src="<?= $logoB64 ?>" style="width:100%;height:100%;object-fit:contain;">
       </div>
       <div style="font-family:'Amiri',serif;font-size:19px;font-weight:700;margin-bottom:2px;" data-i18n="auth_title">مجاز ٢٠٢٦</div>
       <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--cyan);letter-spacing:.15em;">MAJAAZ ARCHITECTURAL COMPETITION</div>
@@ -553,16 +596,16 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
     <div class="sbar">
       <div class="sbar-top">
         <div class="sbar-brand">
-          <div class="sbar-icon admin"><img src="data:image/png;base64,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" style="width:100%;height:100%;object-fit:contain;"></div>
+          <div class="sbar-icon admin"><img src="<?= $logoB64 ?>" style="width:100%;height:100%;object-fit:contain;"></div>
           <div><div class="sbar-brand-name" data-i18n="brand">مجاز</div><span class="sbar-brand-sub admin">ADMIN</span></div>
         </div>
       </div>
       <div class="sbar-sec">
         <div class="sbar-sec-lbl" data-i18n="admin_section">الإدارة</div>
-        <button class="nav-btn active" data-admin-tab="projects"><span class="nav-icon">🏛</span><span data-i18n="projects">المشاريع</span></button>
-        <button class="nav-btn" data-admin-tab="jury"><span class="nav-icon">👥</span><span data-i18n="jury">اللجنة</span></button>
-        <button class="nav-btn" data-admin-tab="evaluations"><span class="nav-icon">📋</span><span data-i18n="evaluations">التقييمات</span></button>
-        <button class="nav-btn" data-admin-tab="criteria"><span class="nav-icon">✏️</span><span data-i18n="criteria_tab">معايير التقييم</span></button>
+        <button class="nav-btn active" data-admin-tab="projects"><span class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span data-i18n="projects">المشاريع</span></button>
+        <button class="nav-btn" data-admin-tab="jury"><span class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span data-i18n="jury">اللجنة</span></button>
+        <button class="nav-btn" data-admin-tab="evaluations"><span class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg></span><span data-i18n="evaluations">التقييمات</span></button>
+        <button class="nav-btn" data-admin-tab="criteria"><span class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span><span data-i18n="criteria_tab">معايير التقييم</span></button>
       </div>
       <div class="sbar-foot">
         <div class="user-row">
@@ -574,9 +617,12 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
     </div>
     <div class="main">
       <div id="admin-projects" class="dash-tab active">
-        <div class="ph" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+        <div class="ph" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
           <div><div class="ph-title">🏛 <span data-i18n="projects">المشاريع</span></div><div class="ph-sub" data-i18n="admin_proj_sub">رفع وإدارة المشاريع المشاركة</div></div>
-          <button class="btn btn-primary btn-sm" id="btn-open-add-project" data-i18n="upload_project">+ رفع مشروع</button>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input type="text" class="search-box" id="admin-proj-search" data-i18n-ph="search_ph" placeholder="بحث..." style="width:150px;">
+            <button class="btn btn-primary btn-sm" id="btn-open-add-project" data-i18n="upload_project">+ رفع مشروع</button>
+          </div>
         </div>
         <div class="stat-strip" id="admin-proj-stats"></div>
         <div class="proj-grid" id="admin-projects-grid"></div>
@@ -632,14 +678,14 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
     <div class="sbar">
       <div class="sbar-top">
         <div class="sbar-brand">
-          <div class="sbar-icon jury"><img src="data:image/png;base64,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" style="width:100%;height:100%;object-fit:contain;"></div>
+          <div class="sbar-icon jury"><img src="<?= $logoB64 ?>" style="width:100%;height:100%;object-fit:contain;"></div>
           <div><div class="sbar-brand-name" data-i18n="brand">مجاز</div><span class="sbar-brand-sub jury">JURY</span></div>
         </div>
       </div>
       <div class="sbar-sec">
         <div class="sbar-sec-lbl" data-i18n="judging_section">التحكيم</div>
-        <button class="nav-btn active jury-role" data-jury-tab="projects"><span class="nav-icon">🏛</span><span data-i18n="projects">المشاريع</span></button>
-        <button class="nav-btn jury-role" data-jury-tab="my-evals"><span class="nav-icon">📋</span><span data-i18n="my_evals">تقييماتي</span></button>
+        <button class="nav-btn active jury-role" data-jury-tab="projects"><span class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span data-i18n="projects">المشاريع</span></button>
+        <button class="nav-btn jury-role" data-jury-tab="my-evals"><span class="nav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg></span><span data-i18n="my_evals">تقييماتي</span></button>
       </div>
       <div class="sbar-foot">
         <div class="user-row">
@@ -651,7 +697,10 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
     </div>
     <div class="main">
       <div id="jury-projects" class="dash-tab active">
-        <div class="ph"><div class="ph-title">🏛 <span data-i18n="projects">المشاريع</span></div><div class="ph-sub" data-i18n="jury_proj_sub">انقر "تقييم" لعرض صور المشروع وتقديم تقييمك</div></div>
+        <div class="ph" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+          <div><div class="ph-title">🏛 <span data-i18n="projects">المشاريع</span></div><div class="ph-sub" data-i18n="jury_proj_sub">انقر "تقييم" لعرض صور المشروع وتقديم تقييمك</div></div>
+          <input type="text" class="search-box" id="jury-search" data-i18n-ph="search_ph" placeholder="بحث..." style="width:150px;margin-top:4px;">
+        </div>
         <div class="proj-grid" id="jury-proj-grid"></div>
         <div class="empty" id="jury-proj-empty" style="display:none;"><span class="empty-icon">🏛</span><div class="empty-title" data-i18n="no_projects">لا توجد مشاريع بعد</div></div>
       </div>
@@ -734,6 +783,10 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
       <button class="btn btn-primary" id="btn-add-project" data-i18n="submit_project">رفع المشروع</button>
       <button class="btn btn-secondary" data-close="modal-add-project" data-i18n="cancel">إلغاء</button>
     </div>
+    <div id="upload-prog-wrap" class="upload-prog-wrap" style="padding:0 22px 14px;">
+      <div class="upload-prog-track"><div class="upload-prog-fill" id="upload-prog-fill"></div></div>
+      <div class="upload-prog-lbl" id="upload-prog-lbl"></div>
+    </div>
   </div>
 </div>
 
@@ -773,6 +826,15 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
     </div>
   </div>
   <div class="lb-thumbs" id="lb-thumbs"></div>
+</div>
+
+<!-- ══ EVAL STICKY ACTION BAR ══ -->
+<div id="eval-action-bar">
+  <div class="eval-bar-inner">
+    <button class="btn btn-save" id="eval-bar-draft"></button>
+    <button class="btn btn-primary" id="eval-bar-publish"></button>
+    <span class="eval-bar-hint" id="eval-bar-hint"></span>
+  </div>
 </div>
 
 <div class="toast-root" id="toast-root"></div>
@@ -1029,6 +1091,7 @@ var STRINGS = {
     criteria_q: 'المعيار',
     save_changes: 'حفظ التعديلات', current_cover: 'الغلاف الحالي',
     image: 'صورة', t_project_updated: 'تم تحديث المشروع ✓',
+    search_ph: 'بحث...',
   },
   en: {
     brand: 'Majaaz',
@@ -1147,6 +1210,7 @@ var STRINGS = {
     criteria_q: 'Criterion',
     save_changes: 'Save Changes', current_cover: 'Current Cover',
     image: 'Image', t_project_updated: 'Project updated ✓',
+    search_ph: 'Search...',
   }
 };
 var LANG = 'ar';
@@ -1204,6 +1268,8 @@ function showView(v){
   document.querySelectorAll('.view').forEach(function(el){el.classList.remove('active');});
   g('view-'+v).classList.add('active');
   if(v==='public')renderPublic();
+  var bar=g('eval-action-bar');
+  if(bar&&v!=='eval-fullscreen')bar.classList.remove('visible');
 }
 function openModal(id){g(id).classList.add('open');}
 function closeModal(id){g(id).classList.remove('open');}
@@ -1369,13 +1435,22 @@ function openEvalFs(pid){
   if(!items.length)items.push({dataUrl:null,desc:''});
   buildCar(items);
   var ex=getMyEval(pid);
-  evalScores=ex?ex.scores.slice():getCriteria().map(function(){return 0;});
-  renderEvalForm(pid,ex);
+  var lsData=null;
+  try{var raw=localStorage.getItem('eval_draft_'+pid);if(raw)lsData=JSON.parse(raw);}catch(e){}
+  if(ex){
+    evalScores=ex.scores.slice();
+  } else if(lsData&&lsData.scores){
+    evalScores=lsData.scores.slice();
+  } else {
+    evalScores=getCriteria().map(function(){return 0;});
+  }
+  renderEvalForm(pid,ex,lsData&&!ex?lsData.comment:'');
   showView('eval-fullscreen');
 }
-function renderEvalForm(pid,ex){
+function renderEvalForm(pid,ex,lsComment){
   var body=g('eval-form-body');
   var CRITERIA=getCriteria();
+  var bar=g('eval-action-bar');
   if(ex&&ex.published){
     var pct=num(ex.rawScore)/MAX*100;
     body.innerHTML='<div class="ef-title">'+t('eval_result')+'</div><div class="ef-sub">'+t('published_final')+'</div>'
@@ -1388,12 +1463,16 @@ function renderEvalForm(pid,ex){
           +'<span style="font-family:\'IBM Plex Mono\',monospace;color:var(--cyan);font-weight:600;margin-'+(LANG==='ar'?'right':'left')+':10px;">'+ex.scores[i]+'</span></div>';
       }).join('')
       +(ex.comment?'<div class="er-comment" style="margin-top:14px;">'+ex.comment+'</div>':'');
+    if(bar)bar.classList.remove('visible');
     return;
   }
   var ans=evalScores.filter(function(s){return s>0;}).length;
   var raw=evalScores.reduce(function(a,b){return a+b;},0);
   var LIKERT=getLikert();
+  var commentVal=ex?(ex.comment||''):(lsComment||'');
+  body.className='eval-form eval-form-padded';
   body.innerHTML=(ex?'<div style="background:var(--blb);border:1px solid rgba(59,130,246,.18);border-radius:var(--rmd);padding:9px 13px;font-size:12px;color:var(--bl);margin-bottom:14px;">'+t('saved_draft_note')+'</div>':'')
+    +(lsComment&&!ex?'<div style="background:var(--amb);border:1px solid rgba(245,158,11,.18);border-radius:var(--rmd);padding:9px 13px;font-size:12px;color:var(--am);margin-bottom:14px;display:flex;align-items:center;gap:7px;">💾 '+t('draft')+'</div>':'')
     +'<div class="ef-title">'+t('eval_criteria_title')+'</div><div class="ef-sub">'+t('eval_criteria_sub')+'</div>'
     +'<div class="prog-row"><div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:'+(ans/CRITERIA.length*100)+'%"></div></div><div class="prog-txt" id="prog-txt">'+ans+' / '+CRITERIA.length+'</div></div>'
     +'<div class="score-live"><div class="sl-big" id="sl-big">'+((raw/10).toFixed(1))+' / 10</div><div class="sl-lbl">'+t('total_score')+'</div></div>'
@@ -1408,18 +1487,28 @@ function renderEvalForm(pid,ex){
     +'<div class="comment-section">'
     +'<label class="field-label" style="font-size:13px;color:var(--t1);">'+t('comment_label')+' <span class="req">*</span></label>'
     +'<div class="comment-req-note">'+t('comment_req')+'</div>'
-    +'<textarea class="input" id="eval-comment" rows="4" placeholder="'+t('comment_ph')+'">'+(ex?ex.comment:'')+'</textarea>'
-    +'</div>'
-    +'<div class="eval-actions">'
-    +'<button class="btn btn-save" id="btn-draft">'+t('save_draft')+'</button>'
-    +'<button class="btn btn-primary" id="btn-publish">'+t('publish_eval')+'</button>'
-    +'</div>'
-    +'<div style="font-size:11px;color:var(--t3);text-align:center;margin-top:10px;">'+t('after_publish')+'</div>';
+    +'<textarea class="input" id="eval-comment" rows="4" placeholder="'+t('comment_ph')+'">'+commentVal+'</textarea>'
+    +'</div>';
   body.querySelectorAll('.lk-opt').forEach(function(btn){
     btn.addEventListener('click',function(){setScore(parseInt(this.dataset.q),parseInt(this.dataset.v));});
   });
-  g('btn-draft').onclick=function(){saveEval(false);};
-  g('btn-publish').onclick=function(){saveEval(true);};
+  // Wire up sticky bar
+  if(bar){
+    var bd=g('eval-bar-draft'),bp=g('eval-bar-publish'),bh=g('eval-bar-hint');
+    if(bd)bd.textContent=t('save_draft');
+    if(bp)bp.textContent=t('publish_eval');
+    if(bh)bh.textContent=t('after_publish');
+    if(bd)bd.onclick=function(){saveEval(false);};
+    if(bp)bp.onclick=function(){saveEval(true);};
+    bar.classList.add('visible');
+  }
+  // Comment autosave
+  var ce=g('eval-comment');
+  if(ce){
+    ce.addEventListener('input',function(){
+      try{localStorage.setItem('eval_draft_'+pid,JSON.stringify({scores:evalScores.slice(),comment:this.value}));}catch(e){}
+    });
+  }
 }
 function setScore(q,v){
   evalScores[q]=v;
@@ -1431,6 +1520,10 @@ function setScore(q,v){
   var sb=g('sl-big');if(sb)sb.textContent=(raw/10).toFixed(1)+' / 10';
   var pf=g('prog-fill');if(pf)pf.style.width=(ans/CRITERIA.length*100)+'%';
   var pt=g('prog-txt');if(pt)pt.textContent=ans+' / '+CRITERIA.length;
+  try{
+    var ce=g('eval-comment');
+    localStorage.setItem('eval_draft_'+carProjId,JSON.stringify({scores:evalScores.slice(),comment:ce?ce.value:''}));
+  }catch(e){}
 }
 
 /* ══ SAVE EVAL — real API ══ */
@@ -1457,7 +1550,7 @@ function saveEval(publish){
 
   if(ce)fieldOk(ce);
   var raw=evalScores.reduce(function(a,b){return a+b;},0);
-  var btn1=g('btn-draft'),btn2=g('btn-publish');
+  var btn1=g('eval-bar-draft'),btn2=g('eval-bar-publish');
   if(btn1)btn1.disabled=true;if(btn2)btn2.disabled=true;
 
   api('jury_save_evaluation.php',{
@@ -1475,6 +1568,7 @@ function saveEval(publish){
     }
     // Update local DB with returned evaluations immediately
     if(d.evaluations) DB.evaluations = d.evaluations;
+    try{localStorage.removeItem('eval_draft_'+carProjId);}catch(e){}
     toast(publish?t('t_published'):t('t_saved'));
     showView('jury');
     renderJuryProjects();
@@ -1497,8 +1591,12 @@ function renderPublic(){
   g('pub-evals-count').textContent=pubEvals.length;
   grid.innerHTML='';
   if(!DB.projects.length){empty.style.display='block';grid.style.display='none';return;}
-  empty.style.display='none';grid.style.display='grid';
-  DB.projects.forEach(function(p){
+  var ps=g('pub-search');
+  if(ps&&!ps._bound){ps._bound=true;ps.addEventListener('input',renderPublic);}
+  var srch=(ps?ps.value:'').trim().toLowerCase();
+  var filtered=DB.projects.filter(function(p){return !srch||p.name.toLowerCase().indexOf(srch)!==-1;});
+  empty.style.display=filtered.length?'none':'block';grid.style.display=filtered.length?'grid':'none';
+  filtered.forEach(function(p){
     var evCount=evMap[p.id]||0;
     var allImgs=p.images||[];
     var totalImgs=(p.cover?1:0)+allImgs.length;
@@ -1590,7 +1688,7 @@ function adminTab(tab){
   document.querySelectorAll('[data-admin-tab]').forEach(function(b){b.classList.toggle('active',b.dataset.adminTab===tab);});
   document.querySelectorAll('#view-admin .dash-tab').forEach(function(s){s.classList.remove('active');});
   g('admin-'+tab).classList.add('active');
-  if(tab==='projects')renderAdminProjects();
+  if(tab==='projects'){showSkeletons('admin-projects-grid',6,false);renderAdminProjects();}
   else if(tab==='jury')renderAdminJury();
   else if(tab==='evaluations')renderAdminEvals();
   else if(tab==='criteria')renderCriteriaEditor();
@@ -1611,9 +1709,13 @@ function renderAdminProjects(){
     +sbox('⏳','var(--amb)','var(--am)',DB.projects.length-evProj,t('stat_pending'));
   var grid=g('admin-projects-grid'),empty=g('admin-projects-empty');
   grid.innerHTML='';
-  if(!DB.projects.length){empty.style.display='block';grid.style.display='none';return;}
+  var aps=g('admin-proj-search');
+  if(aps&&!aps._bound){aps._bound=true;aps.addEventListener('input',renderAdminProjects);}
+  var srch=(aps?aps.value:'').trim().toLowerCase();
+  var projects=DB.projects.filter(function(p){return !srch||p.name.toLowerCase().indexOf(srch)!==-1;});
+  if(!projects.length){empty.style.display='block';grid.style.display='none';return;}
   empty.style.display='none';grid.style.display='grid';
-  DB.projects.forEach(function(p){
+  projects.forEach(function(p){
     var pub=DB.evaluations.filter(function(e){return e.projectId===p.id&&e.published;}).length;
     var imgs=(p.cover?1:0)+(p.images||[]).length;
     var card=document.createElement('div');card.className='pc';
@@ -1734,7 +1836,16 @@ function renderAdminJury(){
 function renderAdminEvals(){
   var c=g('admin-evals-list');c.innerHTML='';
   var members=DB.users.filter(function(u){return u.role==='jury';});
-  if(!members.length){c.innerHTML='<div class="empty"><span class="empty-icon">👥</span><div class="empty-title">'+t('add_jury_first')+'</div></div>';return;}
+  var totalPub=DB.evaluations.filter(function(e){return e.published;}).length;
+  var totalDraft=DB.evaluations.filter(function(e){return !e.published;}).length;
+  var evaledProj=Object.keys(DB.evaluations.reduce(function(a,e){if(e.published)a[e.projectId]=1;return a;},{})).length;
+  var pending=DB.projects.length-evaledProj;
+  c.innerHTML='<div class="stat-strip" style="margin-bottom:20px;">'
+    +sbox('📋','var(--grb)','var(--gr)',totalPub,t('stat_published_evals'))
+    +sbox('💾','var(--blb)','var(--bl)',totalDraft,t('stat_drafts'))
+    +sbox('⏳','var(--amb)','var(--am)',pending<0?0:pending,t('stat_pending'))
+    +'</div>';
+  if(!members.length){c.innerHTML+='<div class="empty"><span class="empty-icon">👥</span><div class="empty-title">'+t('add_jury_first')+'</div></div>';return;}
   members.forEach(function(m){
     var myEvals=DB.evaluations.filter(function(e){return e.juryId===m.id;});
     var wrap=document.createElement('div');wrap.className='card';wrap.style.marginBottom='14px';
@@ -1849,24 +1960,38 @@ g('btn-add-project').onclick=function(){
   document.querySelectorAll('#img-items-list [data-idx]').forEach(function(ta){stageImgs[parseInt(ta.dataset.idx)].desc=ta.value;});
   var images=stageImgs.map(function(i){return {dataUrl:i.dataUrl,filename:i.name||'',desc:i.desc||''};});
   var btn=g('btn-add-project');btn.disabled=true;
-  if(editingProjectId){
-    api('admin_update_project.php',{projectId:editingProjectId,name:name,cover:stageCover?stageCover.dataUrl:null,images:images})
-    .then(function(d){
-      if(!d.ok){toast(d.error||'Error','err');btn.disabled=false;return;}
-      closeModal('modal-add-project');closeEditMode();
-      toast(t('t_project_updated'));
-      if(d.projects){DB.projects=d.projects;}return loadData();
-    }).then(function(){renderAdminProjects();btn.disabled=false;})
-    .catch(function(){toast('Network error','err');btn.disabled=false;});
-  } else {
-    api('admin_create_project.php',{name:name,cover:stageCover?stageCover.dataUrl:null,images:images})
-    .then(function(d){
-      if(!d.ok){toast(d.error||'Error','err');btn.disabled=false;return;}
-      closeModal('modal-add-project');toast(t('t_project_added'));
-      if(d.projects){DB.projects=d.projects;}return loadData();
-    }).then(function(){renderAdminProjects();renderPublic();btn.disabled=false;})
-    .catch(function(){toast('Network error','err');btn.disabled=false;});
+  // Show upload progress
+  var pw=g('upload-prog-wrap'),pf=g('upload-prog-fill'),pl=g('upload-prog-lbl');
+  var progTimer=null,prog=0;
+  if(pw){
+    pw.classList.add('visible');pf.style.width='0%';
+    var totalFiles=images.length+(stageCover?1:0);
+    pl.textContent=(LANG==='ar'?'جاري رفع ':'Uploading ')+(totalFiles||1)+(LANG==='ar'?' ملف...':' file(s)...');
+    progTimer=setInterval(function(){if(prog<80){prog+=3;pf.style.width=prog+'%';}},180);
   }
+  function finishProg(ok){
+    if(progTimer)clearInterval(progTimer);
+    if(pw){
+      pf.style.width='100%';
+      pl.textContent=ok?(LANG==='ar'?'تم الرفع ✓':'Uploaded ✓'):(LANG==='ar'?'حدث خطأ':'Error');
+      setTimeout(function(){pw.classList.remove('visible');pf.style.width='0%';},800);
+    }
+    btn.disabled=false;
+  }
+  var endpoint=editingProjectId?'admin_update_project.php':'admin_create_project.php';
+  var payload=editingProjectId
+    ?{projectId:editingProjectId,name:name,cover:stageCover?stageCover.dataUrl:null,images:images}
+    :{name:name,cover:stageCover?stageCover.dataUrl:null,images:images};
+  api(endpoint,payload)
+  .then(function(d){
+    if(!d.ok){finishProg(false);toast(d.error||'Error','err');return;}
+    finishProg(true);
+    closeModal('modal-add-project');
+    if(editingProjectId){closeEditMode();toast(t('t_project_updated'));}
+    else{toast(t('t_project_added'));}
+    if(d.projects){DB.projects=d.projects;}return loadData();
+  }).then(function(){renderAdminProjects();if(!editingProjectId)renderPublic();})
+  .catch(function(){finishProg(false);toast('Network error','err');});
 };
 
 /* ══ ADD JURY — real API ══ */
@@ -1945,7 +2070,8 @@ function juryTab(tab){
   document.querySelectorAll('[data-jury-tab]').forEach(function(b){b.classList.toggle('active',b.dataset.juryTab===tab);});
   document.querySelectorAll('#view-jury .dash-tab').forEach(function(s){s.classList.remove('active');});
   g('jury-'+tab).classList.add('active');
-  if(tab==='projects')renderJuryProjects();else renderJuryMyEvals();
+  if(tab==='projects'){showSkeletons('jury-proj-grid',6,false);renderJuryProjects();}
+  else renderJuryMyEvals();
 }
 function getMyEval(pid){
   if(!DB.currentUser) return null;
@@ -1957,9 +2083,13 @@ function getMyEval(pid){
 function renderJuryProjects(){
   var grid=g('jury-proj-grid'),empty=g('jury-proj-empty');
   grid.innerHTML='';
-  if(!DB.projects.length){empty.style.display='block';grid.style.display='none';return;}
+  var js=g('jury-search');
+  if(js&&!js._bound){js._bound=true;js.addEventListener('input',renderJuryProjects);}
+  var srch=(js?js.value:'').trim().toLowerCase();
+  var projects=DB.projects.filter(function(p){return !srch||p.name.toLowerCase().indexOf(srch)!==-1;});
+  if(!projects.length){empty.style.display='block';grid.style.display='none';return;}
   empty.style.display='none';grid.style.display='grid';
-  DB.projects.forEach(function(p){
+  projects.forEach(function(p){
     var ev=getMyEval(p.id);
     var badge=ev&&ev.published?'<span class="badge bg" style="position:absolute;bottom:7px;left:7px;">'+t('published')+'</span>'
       :ev?'<span class="badge bb" style="position:absolute;bottom:7px;left:7px;">'+t('draft')+'</span>':'';
@@ -2040,7 +2170,25 @@ document.querySelectorAll('[data-jury-tab]').forEach(function(btn){btn.onclick=f
 document.querySelectorAll('[data-close]').forEach(function(btn){btn.onclick=function(){closeModal(this.dataset.close);if(this.dataset.close==='modal-add-project')closeEditMode();};});
 g('lang-btn').onclick=function(){toggleLang();};
 
+/* ══ SKELETON RENDERER ══ */
+function skelCard(pub){
+  var imgH=pub?'skel-pub-img':'skel-img';
+  return '<div class="skel-card'+(pub?'pub-card':'pc')+'">'
+    +'<div class="skel '+imgH+'"></div>'
+    +'<div class="skel-body">'
+    +'<div class="skel skel-line"></div>'
+    +'<div class="skel skel-line short"></div>'
+    +'<div class="skel skel-line xshort"></div>'
+    +'</div></div>';
+}
+function showSkeletons(gridId, count, pub){
+  var grid=g(gridId);if(!grid)return;
+  grid.style.display='grid';
+  grid.innerHTML=Array(count).fill(0).map(function(){return skelCard(pub);}).join('');
+}
+
 /* ══ BOOT ══ */
+showSkeletons('pub-grid',6,true);
 loadData();
 
 })();
