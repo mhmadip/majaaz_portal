@@ -2434,21 +2434,25 @@ if(btnPreviewCrit){
     var mkOpts=function(lks){return lks.map(function(lk){return '<button class="lk-opt" disabled style="cursor:default;opacity:.7;font-size:9px;padding:6px 2px;"><span class="lk-v">'+lk.v+'</span>'+lk.l+'</button>';}).join('');};
     var body=g('criteria-preview-body');
     var ptitle=g('criteria-preview-title');if(ptitle)ptitle.textContent='👁 '+t('preview_criteria_title');
-    body.innerHTML='<div style="font-size:12px;color:var(--am);margin-bottom:16px;padding:8px 12px;background:var(--amb);border-radius:var(--rmd);">'+t('preview_read_only')+'</div>'
+    // Force LTR on the container so the two-column grid renders correctly
+    // regardless of page direction. EN on left, AR on right — natural bilingual layout.
+    body.innerHTML='<div dir="ltr" style="direction:ltr;">'
+      +'<div style="font-size:12px;color:var(--am);margin-bottom:16px;padding:8px 12px;background:var(--amb);border-radius:var(--rmd);direction:rtl;">'+t('preview_read_only')+'</div>'
       +'<div style="display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--b1);border-radius:var(--rlg);overflow:hidden;margin-bottom:10px;">'
-      +'<div style="padding:9px 14px;background:var(--s3);font-size:11px;font-weight:600;color:var(--cyan);font-family:\'IBM Plex Mono\',monospace;text-align:right;direction:rtl;border-bottom:1px solid var(--b1);">العربية</div>'
-      +'<div style="padding:9px 14px;background:var(--s3);font-size:11px;font-weight:600;color:var(--gold);font-family:\'IBM Plex Mono\',monospace;direction:ltr;border-bottom:1px solid var(--b1);border-right:1px solid var(--b1);">English</div>'
+      +'<div style="padding:9px 14px;background:var(--s3);font-size:11px;font-weight:600;color:var(--gold);font-family:\'IBM Plex Mono\',monospace;letter-spacing:.06em;border-bottom:1px solid var(--b1);">English</div>'
+      +'<div style="padding:9px 14px;background:var(--s3);font-size:11px;font-weight:600;color:var(--cyan);font-family:\'IBM Plex Mono\',monospace;letter-spacing:.06em;text-align:right;border-bottom:1px solid var(--b1);border-left:1px solid var(--b1);">العربية</div>'
       +'</div>'
       +AR.map(function(q,i){
-        return '<div style="display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--b1);border-radius:var(--rlg);overflow:hidden;margin-bottom:8px;">'
-          +'<div style="padding:12px 14px;background:var(--s2);direction:rtl;">'
+        return '<div style="display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--b1);border-radius:var(--rlg);overflow:hidden;margin-bottom:8px;min-width:0;">'
+          +'<div style="padding:12px 14px;background:var(--s2);min-width:0;">'
+          +'<div class="lk-q" style="margin-bottom:8px;font-family:\'Inter\',sans-serif;direction:ltr;"><span class="lk-qn">'+(i+1)+'.</span>'+(EN[i]||'')+'</div>'
+          +'<div class="lk-scale" style="flex-wrap:wrap;gap:4px;">'+mkOpts(LKen)+'</div></div>'
+          +'<div style="padding:12px 14px;background:var(--s2);border-left:1px solid var(--b1);min-width:0;direction:rtl;">'
           +'<div class="lk-q" style="margin-bottom:8px;"><span class="lk-qn">'+(i+1)+'.</span>'+q+'</div>'
-          +'<div class="lk-scale">'+mkOpts(LKar)+'</div></div>'
-          +'<div style="padding:12px 14px;background:var(--s2);border-right:1px solid var(--b1);direction:ltr;">'
-          +'<div class="lk-q" style="margin-bottom:8px;font-family:\'Inter\',sans-serif;"><span class="lk-qn">'+(i+1)+'.</span>'+(EN[i]||'')+'</div>'
-          +'<div class="lk-scale">'+mkOpts(LKen)+'</div></div>'
+          +'<div class="lk-scale" style="flex-wrap:wrap;gap:4px;">'+mkOpts(LKar)+'</div></div>'
           +'</div>';
-      }).join('');
+      }).join('')
+      +'</div>';
     openModal('modal-criteria-preview');
   };
 }
