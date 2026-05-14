@@ -458,6 +458,43 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
 .search-box::placeholder{color:var(--t3);}
 [lang="en"] .search-box{font-family:'Inter',sans-serif;}
 
+/* ═══════════ PUBLISH SUCCESS ═══════════ */
+.publish-success-overlay{position:fixed;inset:0;z-index:600;display:flex;align-items:center;justify-content:center;background:rgba(4,7,11,.88);backdrop-filter:blur(8px);}
+.publish-success-box{background:var(--s2);border:1px solid rgba(0,212,184,.25);border-radius:var(--r2xl);padding:32px 28px;max-width:420px;width:100%;text-align:center;animation:mIn .3s cubic-bezier(.34,1.56,.64,1);}
+.publish-success-icon{width:64px;height:64px;border-radius:50%;background:rgba(0,212,184,.12);border:2px solid var(--cyan);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px;}
+.publish-score-big{font-family:'IBM Plex Mono',monospace;font-size:42px;font-weight:700;color:var(--cyan);line-height:1;margin-bottom:4px;}
+.publish-score-sub{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--gold);}
+.publish-proj-name{font-family:'Amiri',serif;font-size:17px;font-weight:700;margin:14px 0 18px;}
+
+/* ═══════════ KEYBOARD HINT ═══════════ */
+.kbd-hint{position:absolute;top:9px;left:50%;transform:translateX(-50%);background:rgba(4,7,11,.78);backdrop-filter:blur(6px);border:1px solid var(--b2);border-radius:20px;padding:4px 12px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t2);display:flex;gap:8px;align-items:center;z-index:5;white-space:nowrap;transition:opacity .4s;pointer-events:none;}
+.kbd-hint.hidden{opacity:0;}
+.kbd-key{background:var(--s4);border:1px solid var(--b3);border-radius:3px;padding:1px 5px;font-size:9px;color:var(--t1);}
+
+/* ═══════════ SORT SELECT ═══════════ */
+.sort-select{padding:7px 10px;background:var(--s3);border:1.5px solid var(--b2);border-radius:var(--rmd);color:var(--t2);font-family:'Noto Naskh Arabic',serif;font-size:12px;outline:none;cursor:pointer;transition:border-color .18s;}
+.sort-select:focus{border-color:var(--cyan);}
+[lang="en"] .sort-select{font-family:'Inter',sans-serif;}
+
+/* ═══════════ CUSTOM CONFIRM ═══════════ */
+#confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(10px);z-index:800;display:none;align-items:center;justify-content:center;padding:16px;}
+#confirm-overlay.open{display:flex;}
+.confirm-box{background:var(--s2);border:1px solid var(--b2);border-radius:var(--rxl);padding:28px 26px;max-width:400px;width:100%;box-shadow:var(--sh4);animation:mIn .22s cubic-bezier(.34,1.56,.64,1);}
+.confirm-icon{font-size:28px;margin-bottom:12px;}
+.confirm-msg{font-size:14px;color:var(--t1);line-height:1.7;margin-bottom:20px;}
+.confirm-actions{display:flex;gap:9px;}
+.confirm-actions .btn{flex:1;}
+
+/* ═══════════ SHOW MORE ═══════════ */
+.show-more-wrap{text-align:center;margin-top:20px;}
+.show-more-wrap .btn{min-width:160px;}
+
+/* ═══════════ DRAG REORDER ═══════════ */
+.img-item{cursor:default;}
+.drag-handle{cursor:grab;color:var(--t3);font-size:14px;padding:0 4px;flex-shrink:0;line-height:1;user-select:none;}
+.drag-handle:active{cursor:grabbing;}
+.img-item.drag-over{border-color:var(--cyan);background:var(--cg);}
+
 /* ═══════════ UPLOAD PROGRESS ═══════════ */
 .upload-prog-wrap{margin-top:10px;display:none;}
 .upload-prog-wrap.visible{display:block;}
@@ -547,7 +584,7 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
     </div>
   </div>
   <section class="pub-section">
-    <div class="sec-bar"><div class="sec-heading" data-i18n="all_projects">جميع المشاريع</div><input type="text" class="search-box" id="pub-search" data-i18n-ph="search_ph" placeholder="بحث..."></div>
+    <div class="sec-bar" id="pub-sec-bar"><div class="sec-heading" data-i18n="all_projects">جميع المشاريع</div><div style="display:flex;gap:8px;align-items:center;"><input type="text" class="search-box" id="pub-search" data-i18n-ph="search_ph" placeholder="بحث..."><span id="pub-sort-wrap"></span></div></div>
     <div class="pub-grid" id="pub-grid"></div>
     <div class="empty" id="pub-empty" style="display:none;">
       <span class="empty-icon">🏛</span>
@@ -621,6 +658,7 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
           <div><div class="ph-title">🏛 <span data-i18n="projects">المشاريع</span></div><div class="ph-sub" data-i18n="admin_proj_sub">رفع وإدارة المشاريع المشاركة</div></div>
           <div style="display:flex;gap:8px;align-items:center;">
             <input type="text" class="search-box" id="admin-proj-search" data-i18n-ph="search_ph" placeholder="بحث..." style="width:150px;">
+            <span id="admin-sort-wrap"></span>
             <button class="btn btn-primary btn-sm" id="btn-open-add-project" data-i18n="upload_project">+ رفع مشروع</button>
           </div>
         </div>
@@ -655,17 +693,21 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
         <div class="empty" id="jury-empty" style="display:none;"><span class="empty-icon">👥</span><div class="empty-title" data-i18n="no_jury">لا يوجد أعضاء بعد</div></div>
       </div>
       <div id="admin-evaluations" class="dash-tab">
-        <div class="ph"><div class="ph-title">📋 <span data-i18n="evaluations">التقييمات</span></div><div class="ph-sub" data-i18n="jury_evals_sub">تقييمات أعضاء اللجنة</div></div>
+        <div class="ph" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+          <div><div class="ph-title">📋 <span data-i18n="evaluations">التقييمات</span></div><div class="ph-sub" data-i18n="jury_evals_sub">تقييمات أعضاء اللجنة</div></div>
+          <button class="btn btn-ghost btn-sm" id="btn-export-csv" style="flex-shrink:0;">⬇ CSV</button>
+        </div>
         <div id="admin-evals-list"></div>
       </div>
       <div id="admin-criteria" class="dash-tab">
-        <div class="ph" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
-          <div><div class="ph-title">✏️ <span data-i18n="criteria_tab">معايير التقييم</span></div><div class="ph-sub" data-i18n="criteria_sub">تعديل نصوص معايير التقييم بالعربية والإنجليزية</div></div>
-          <button class="btn btn-ghost btn-sm" id="btn-reset-criteria" data-i18n="reset_criteria">↺ إعادة للافتراضي</button>
+        <div class="ph">
+          <div class="ph-title">✏️ <span data-i18n="criteria_tab">معايير التقييم</span></div><div class="ph-sub" data-i18n="criteria_sub">تعديل نصوص معايير التقييم بالعربية والإنجليزية</div>
         </div>
         <div id="criteria-editor" style="display:flex;flex-direction:column;gap:12px;margin-top:8px;"></div>
         <div style="margin-top:18px;display:flex;gap:10px;">
           <button class="btn btn-primary" id="btn-save-criteria" data-i18n="save_criteria">حفظ المعايير</button>
+          <button class="btn btn-ghost" id="btn-preview-criteria">👁 معاينة</button>
+          <button class="btn btn-ghost btn-sm" id="btn-reset-criteria" data-i18n="reset_criteria">↺ إعادة للافتراضي</button>
         </div>
       </div>
     </div>
@@ -699,7 +741,7 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
       <div id="jury-projects" class="dash-tab active">
         <div class="ph" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
           <div><div class="ph-title">🏛 <span data-i18n="projects">المشاريع</span></div><div class="ph-sub" data-i18n="jury_proj_sub">انقر "تقييم" لعرض صور المشروع وتقديم تقييمك</div></div>
-          <input type="text" class="search-box" id="jury-search" data-i18n-ph="search_ph" placeholder="بحث..." style="width:150px;margin-top:4px;">
+          <div style="display:flex;gap:8px;align-items:center;margin-top:4px;"><input type="text" class="search-box" id="jury-search" data-i18n-ph="search_ph" placeholder="بحث..." style="width:130px;"><span id="jury-sort-wrap"></span></div>
         </div>
         <div class="proj-grid" id="jury-proj-grid"></div>
         <div class="empty" id="jury-proj-empty" style="display:none;"><span class="empty-icon">🏛</span><div class="empty-title" data-i18n="no_projects">لا توجد مشاريع بعد</div></div>
@@ -828,6 +870,29 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
   <div class="lb-thumbs" id="lb-thumbs"></div>
 </div>
 
+<!-- ══ CRITERIA PREVIEW MODAL ══ -->
+<div class="overlay" id="modal-criteria-preview">
+  <div class="modal" style="max-width:640px;">
+    <div class="modal-hd">
+      <div class="modal-hd-title">👁 معاينة معايير التقييم</div>
+      <button class="btn btn-ghost btn-sm btn-icon" data-close="modal-criteria-preview">✕</button>
+    </div>
+    <div class="modal-bd" id="criteria-preview-body" style="max-height:70vh;overflow-y:auto;"></div>
+  </div>
+</div>
+
+<!-- ══ CUSTOM CONFIRM ══ -->
+<div id="confirm-overlay">
+  <div class="confirm-box">
+    <div class="confirm-icon">⚠️</div>
+    <div class="confirm-msg" id="confirm-msg"></div>
+    <div class="confirm-actions">
+      <button class="btn btn-danger" id="confirm-ok"></button>
+      <button class="btn btn-secondary" id="confirm-cancel"></button>
+    </div>
+  </div>
+</div>
+
 <!-- ══ EVAL STICKY ACTION BAR ══ -->
 <div id="eval-action-bar">
   <div class="eval-bar-inner">
@@ -940,6 +1005,7 @@ async function loadData(){
     DB.users       = d.users       || [];
     DB.currentUser = d.me          || null;
     if(d.csrfToken) setCsrfToken(d.csrfToken);
+    if(d.criteria)  customCriteria = d.criteria;
 
     hideLoader();
 
@@ -1092,6 +1158,9 @@ var STRINGS = {
     save_changes: 'حفظ التعديلات', current_cover: 'الغلاف الحالي',
     image: 'صورة', t_project_updated: 'تم تحديث المشروع ✓',
     search_ph: 'بحث...',
+    sort_default: 'الترتيب الافتراضي', sort_az: 'أ → ي', sort_za: 'ي → أ',
+    sort_most_eval: 'الأكثر تقييماً', sort_least_eval: 'الأقل تقييماً',
+    show_more: 'عرض المزيد',
   },
   en: {
     brand: 'Majaaz',
@@ -1211,6 +1280,9 @@ var STRINGS = {
     save_changes: 'Save Changes', current_cover: 'Current Cover',
     image: 'Image', t_project_updated: 'Project updated ✓',
     search_ph: 'Search...',
+    sort_default: 'Default', sort_az: 'A → Z', sort_za: 'Z → A',
+    sort_most_eval: 'Most Evaluated', sort_least_eval: 'Least Evaluated',
+    show_more: 'Show More',
   }
 };
 var LANG = 'ar';
@@ -1244,6 +1316,8 @@ function getLikert(){
 
 /* ══ GLOBALS ══ */
 var MAX=100;
+var PAGE_SIZE=12;
+var pubPage=1,adminPage=1,juryPage=1;
 var stageCover=null,stageImgs=[],evalScores=[],carProjId=null,carZoomScale=1,carPanX=0,carPanY=0;
 var carDrag={active:false,startX:0,startY:0,startPanX:0,startPanY:0};
 var carIdx=0,carItems=[];
@@ -1263,6 +1337,15 @@ function toast(msg,type){
   el.innerHTML='<span class="toast-dot"></span>'+msg;
   w.appendChild(el);
   setTimeout(function(){el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(function(){el.remove();},300);},3000);
+}
+function customConfirm(msg,onOk,onCancel){
+  var ov=g('confirm-overlay'),cm=g('confirm-msg'),cok=g('confirm-ok'),ccan=g('confirm-cancel');
+  cm.textContent=msg;
+  cok.textContent=t('delete');ccan.textContent=t('cancel');
+  ov.classList.add('open');
+  function cleanup(){ov.classList.remove('open');cok.onclick=null;ccan.onclick=null;}
+  cok.onclick=function(){cleanup();if(onOk)onOk();};
+  ccan.onclick=function(){cleanup();if(onCancel)onCancel();};
 }
 function showView(v){
   document.querySelectorAll('.view').forEach(function(el){el.classList.remove('active');});
@@ -1328,6 +1411,15 @@ function buildCar(items){
     vp.appendChild(img);
   });
   if(!items[0].dataUrl)g('car-ph').style.display='block';
+  // Keyboard hint
+  var oldHint=vp.querySelector('.kbd-hint');if(oldHint)oldHint.remove();
+  if(items.length>0&&!localStorage.getItem('kbd_hint_seen')){
+    var hint=document.createElement('div');hint.className='kbd-hint';
+    hint.innerHTML='<span class="kbd-key">←</span><span class="kbd-key">→</span> تنقل &nbsp; <span class="kbd-key">+</span><span class="kbd-key">−</span> تكبير';
+    vp.appendChild(hint);
+    setTimeout(function(){hint.classList.add('hidden');setTimeout(function(){hint.remove();},400);},3000);
+    localStorage.setItem('kbd_hint_seen','1');
+  }
   buildCarThumbs();updCarUI();setupZoomPan();
 }
 function buildCarThumbs(){
@@ -1566,12 +1658,30 @@ function saveEval(publish){
       if(btn2)btn2.disabled=false;
       return;
     }
-    // Update local DB with returned evaluations immediately
-    if(d.evaluations) DB.evaluations = d.evaluations;
     try{localStorage.removeItem('eval_draft_'+carProjId);}catch(e){}
-    toast(publish?t('t_published'):t('t_saved'));
-    showView('jury');
-    renderJuryProjects();
+    if(publish){
+      var proj=DB.projects.filter(function(x){return x.id===carProjId;})[0];
+      var rawScore=evalScores.reduce(function(a,b){return a+b;},0);
+      var avg=(rawScore/10).toFixed(1);
+      var ov=document.createElement('div');ov.className='publish-success-overlay';
+      ov.innerHTML='<div class="publish-success-box">'
+        +'<div class="publish-success-icon">✓</div>'
+        +'<div class="publish-score-big">'+avg+'</div>'
+        +'<div class="publish-score-sub">/ 10</div>'
+        +'<div class="publish-proj-name">'+(proj?proj.name:'')+'</div>'
+        +'<button class="btn btn-primary btn-full" id="publish-done-btn">'+t('back_projects')+'</button>'
+        +'</div>';
+      document.body.appendChild(ov);
+      if(d.evaluations)DB.evaluations=d.evaluations;
+      g('publish-done-btn').onclick=function(){
+        ov.remove();showView('jury');renderJuryProjects();
+      };
+    } else {
+      toast(t('t_saved'));
+      showView('jury');
+      renderJuryProjects();
+    }
+    if(d.evaluations&&!publish)DB.evaluations=d.evaluations;
     if(btn1)btn1.disabled=false;
     if(btn2)btn2.disabled=false;
   }).catch(function(e){
@@ -1581,22 +1691,53 @@ function saveEval(publish){
   });
 }
 
+/* ══ COUNT-UP ANIMATION ══ */
+function countUp(el,target,duration){
+  if(!el)return;
+  var start=0,step=Math.ceil(target/30)||1,delay=duration/Math.max(target/step,1);
+  el.textContent='0';
+  if(target===0)return;
+  var iv=setInterval(function(){
+    start=Math.min(start+step,target);
+    el.textContent=start;
+    if(start>=target)clearInterval(iv);
+  },Math.max(delay,16));
+}
+
+/* ══ SORT HELPER ══ */
+function sortedProjects(list, sortId, evMap){
+  var s=list.slice();
+  if(sortId==='az') s.sort(function(a,b){return a.name.localeCompare(b.name,'ar');});
+  else if(sortId==='za') s.sort(function(a,b){return b.name.localeCompare(a.name,'ar');});
+  else if(sortId==='most') s.sort(function(a,b){return (evMap[b.id]||0)-(evMap[a.id]||0);});
+  else if(sortId==='least') s.sort(function(a,b){return (evMap[a.id]||0)-(evMap[b.id]||0);});
+  return s;
+}
+function sortSelectHtml(id,current){
+  var opts=[['','sort_default'],['az','sort_az'],['za','sort_za'],['most','sort_most_eval'],['least','sort_least_eval']];
+  return '<select class="sort-select" id="'+id+'">'+opts.map(function(o){return '<option value="'+o[0]+'"'+(current===o[0]?' selected':'')+'>'+t(o[1])+'</option>';}).join('')+'</select>';
+}
+
 /* ══ PUBLIC RENDER ══ */
 function renderPublic(){
   var grid=g('pub-grid'),empty=g('pub-empty');
   var pubEvals=DB.evaluations.filter(function(e){return e.published;});
   var evMap={};pubEvals.forEach(function(e){evMap[e.projectId]=(evMap[e.projectId]||0)+1;});
-  g('pub-total').textContent=DB.projects.length;
-  g('pub-evaluated').textContent=Object.keys(evMap).length;
-  g('pub-evals-count').textContent=pubEvals.length;
+  countUp(g('pub-total'),DB.projects.length,600);
+  countUp(g('pub-evaluated'),Object.keys(evMap).length,600);
+  countUp(g('pub-evals-count'),pubEvals.length,600);
   grid.innerHTML='';
   if(!DB.projects.length){empty.style.display='block';grid.style.display='none';return;}
   var ps=g('pub-search');
-  if(ps&&!ps._bound){ps._bound=true;ps.addEventListener('input',renderPublic);}
+  if(ps&&!ps._bound){ps._bound=true;ps.addEventListener('input',function(){pubPage=1;renderPublic();});}
+  var sw=g('pub-sort-wrap');
+  if(sw&&!sw.querySelector('select')){sw.innerHTML=sortSelectHtml('pub-sort','');var sel=sw.querySelector('select');if(sel)sel.addEventListener('change',function(){pubPage=1;renderPublic();});}
+  var sortId=(g('pub-sort')||{}).value||'';
   var srch=(ps?ps.value:'').trim().toLowerCase();
-  var filtered=DB.projects.filter(function(p){return !srch||p.name.toLowerCase().indexOf(srch)!==-1;});
+  var filtered=sortedProjects(DB.projects.filter(function(p){return !srch||p.name.toLowerCase().indexOf(srch)!==-1;}),sortId,evMap);
+  var visible=filtered.slice(0,pubPage*PAGE_SIZE);
   empty.style.display=filtered.length?'none':'block';grid.style.display=filtered.length?'grid':'none';
-  filtered.forEach(function(p){
+  visible.forEach(function(p){
     var evCount=evMap[p.id]||0;
     var allImgs=p.images||[];
     var totalImgs=(p.cover?1:0)+allImgs.length;
@@ -1615,6 +1756,15 @@ function renderPublic(){
     card.addEventListener('click',function(){showProjectDetail(p.id);});
     grid.appendChild(card);
   });
+  // Show More button
+  var smw=document.querySelector('#pub-grid+.show-more-wrap');if(smw)smw.remove();
+  if(visible.length<filtered.length){
+    var wrap=document.createElement('div');wrap.className='show-more-wrap';
+    var smBtn=document.createElement('button');smBtn.className='btn btn-secondary';
+    smBtn.textContent=t('show_more')+' ('+(filtered.length-visible.length)+')';
+    smBtn.onclick=function(){pubPage++;renderPublic();};
+    wrap.appendChild(smBtn);grid.insertAdjacentElement('afterend',wrap);
+  }
 }
 
 /* ══ PROJECT DETAIL ══ */
@@ -1710,9 +1860,14 @@ function renderAdminProjects(){
   var grid=g('admin-projects-grid'),empty=g('admin-projects-empty');
   grid.innerHTML='';
   var aps=g('admin-proj-search');
-  if(aps&&!aps._bound){aps._bound=true;aps.addEventListener('input',renderAdminProjects);}
+  if(aps&&!aps._bound){aps._bound=true;aps.addEventListener('input',function(){adminPage=1;renderAdminProjects();});}
+  var asw=g('admin-sort-wrap');
+  if(asw&&!asw.querySelector('select')){asw.innerHTML=sortSelectHtml('admin-sort','');var asel=asw.querySelector('select');if(asel)asel.addEventListener('change',function(){adminPage=1;renderAdminProjects();});}
+  var sortId=(g('admin-sort')||{}).value||'';
+  var evMapA=DB.evaluations.reduce(function(a,e){if(e.published)a[e.projectId]=(a[e.projectId]||0)+1;return a;},{});
   var srch=(aps?aps.value:'').trim().toLowerCase();
-  var projects=DB.projects.filter(function(p){return !srch||p.name.toLowerCase().indexOf(srch)!==-1;});
+  var allProj=sortedProjects(DB.projects.filter(function(p){return !srch||p.name.toLowerCase().indexOf(srch)!==-1;}),sortId,evMapA);
+  var projects=allProj.slice(0,adminPage*PAGE_SIZE);
   if(!projects.length){empty.style.display='block';grid.style.display='none';return;}
   empty.style.display='none';grid.style.display='grid';
   projects.forEach(function(p){
@@ -1729,21 +1884,31 @@ function renderAdminProjects(){
       +'</div></div>';
     grid.appendChild(card);
   });
+  // Show More for admin
+  var asmw=document.querySelector('#admin-projects-grid+.show-more-wrap');if(asmw)asmw.remove();
+  if(projects.length<allProj.length){
+    var awrap=document.createElement('div');awrap.className='show-more-wrap';
+    var asmBtn=document.createElement('button');asmBtn.className='btn btn-secondary';
+    asmBtn.textContent=t('show_more')+' ('+(allProj.length-projects.length)+')';
+    asmBtn.onclick=function(){adminPage++;renderAdminProjects();};
+    awrap.appendChild(asmBtn);grid.insertAdjacentElement('afterend',awrap);
+  }
   document.querySelectorAll('[data-edit]').forEach(function(btn){
     btn.addEventListener('click',function(){openEditProject(btn.dataset.edit);});
   });
   document.querySelectorAll('[data-del]').forEach(function(btn){
     btn.addEventListener('click',function(){
-      if(!confirm(t('confirm_del_project')))return;
       var pid=btn.dataset.del;
-      btn.disabled=true;
-      api('admin_delete_project.php',{projectId:pid})
-      .then(function(d){
-        if(!d.ok){toast(d.error||'Error','err');btn.disabled=false;return;}
-        toast(t('t_project_deleted'));
-        return loadData();
-      }).then(function(){renderAdminProjects();})
-      .catch(function(){toast('Network error','err');btn.disabled=false;});
+      customConfirm(t('confirm_del_project'),function(){
+        btn.disabled=true;
+        api('admin_delete_project.php',{projectId:pid})
+        .then(function(d){
+          if(!d.ok){toast(d.error||'Error','err');btn.disabled=false;return;}
+          toast(t('t_project_deleted'));
+          return loadData();
+        }).then(function(){renderAdminProjects();})
+        .catch(function(){toast('Network error','err');btn.disabled=false;});
+      });
     });
   });
 }
@@ -1820,14 +1985,15 @@ function renderAdminJury(){
   });
   document.querySelectorAll('[data-rem]').forEach(function(btn){
     btn.addEventListener('click',function(){
-      if(!confirm(t('confirm_del_member')))return;
-      btn.disabled=true;
-      api('admin_delete_jury.php',{userId:btn.dataset.rem})
-      .then(function(d){
-        if(!d.ok){toast(d.error||'Error','err');btn.disabled=false;return;}
-        toast(t('t_member_deleted'));return loadData();
-      }).then(function(){renderAdminJury();})
-      .catch(function(){toast('Network error','err');btn.disabled=false;});
+      customConfirm(t('confirm_del_member'),function(){
+        btn.disabled=true;
+        api('admin_delete_jury.php',{userId:btn.dataset.rem})
+        .then(function(d){
+          if(!d.ok){toast(d.error||'Error','err');btn.disabled=false;return;}
+          toast(t('t_member_deleted'));return loadData();
+        }).then(function(){renderAdminJury();})
+        .catch(function(){toast('Network error','err');btn.disabled=false;});
+      });
     });
   });
 }
@@ -1873,14 +2039,16 @@ function renderAdminEvals(){
       var ev=DB.evaluations.filter(function(e){return e.id===evalId;})[0];
       var juror=DB.users.filter(function(u){return u.id===(ev&&ev.juryId);})[0];
       var proj=DB.projects.filter(function(p){return p.id===(ev&&ev.projectId);})[0];
-      if(!confirm(t('confirm_cancel_eval_pre')+(juror?juror.name:t('juror_default_name'))+t('confirm_cancel_eval_mid')+(proj?proj.name:t('project_default'))+t('confirm_cancel_eval_suf')))return;
-      btn.disabled=true;
-      api('admin_cancel_evaluation.php',{evalId:evalId})
-      .then(function(d){
-        if(!d.ok){toast(d.error||'Error','err');btn.disabled=false;return;}
-        toast(t('t_eval_cancelled'));return loadData();
-      }).then(function(){renderAdminEvals();})
-      .catch(function(){toast('Network error','err');btn.disabled=false;});
+      var msg=t('confirm_cancel_eval_pre')+(juror?juror.name:t('juror_default_name'))+t('confirm_cancel_eval_mid')+(proj?proj.name:t('project_default'))+'؟';
+      customConfirm(msg,function(){
+        btn.disabled=true;
+        api('admin_cancel_evaluation.php',{evalId:evalId})
+        .then(function(d){
+          if(!d.ok){toast(d.error||'Error','err');btn.disabled=false;return;}
+          toast(t('t_eval_cancelled'));return loadData();
+        }).then(function(){renderAdminEvals();})
+        .catch(function(){toast('Network error','err');btn.disabled=false;});
+      });
     });
   });
 }
@@ -1914,12 +2082,25 @@ function resetProjectModal(){
 }
 function renderImgItems(){
   var list=g('img-items-list');list.innerHTML='';
+  var dragSrcIdx=null;
   stageImgs.forEach(function(img,i){
-    var d=document.createElement('div');d.className='img-item';
-    d.innerHTML='<img class="img-item-th" src="'+img.dataUrl+'">'
+    var d=document.createElement('div');d.className='img-item';d.draggable=true;d.dataset.di=i;
+    d.innerHTML='<span class="drag-handle" title="اسحب لإعادة الترتيب">⠿</span>'
+      +'<img class="img-item-th" src="'+img.dataUrl+'">'
       +'<div class="img-item-body"><div class="img-item-name">'+img.name+'</div>'
       +'<textarea class="input" rows="4" placeholder="'+t('img_optional_desc')+'" data-idx="'+i+'" style="font-size:11px;padding:7px 9px;resize:vertical;margin-top:4px;">'+img.desc+'</textarea></div>'
       +'<button style="width:22px;height:22px;border-radius:5px;background:var(--reb);border:1px solid rgba(239,68,68,.22);color:var(--re);cursor:pointer;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;" data-ri="'+i+'">✕</button>';
+    d.addEventListener('dragstart',function(e){dragSrcIdx=parseInt(this.dataset.di);e.dataTransfer.effectAllowed='move';});
+    d.addEventListener('dragover',function(e){e.preventDefault();this.classList.add('drag-over');});
+    d.addEventListener('dragleave',function(){this.classList.remove('drag-over');});
+    d.addEventListener('drop',function(e){
+      e.preventDefault();this.classList.remove('drag-over');
+      var toIdx=parseInt(this.dataset.di);
+      if(dragSrcIdx===null||dragSrcIdx===toIdx)return;
+      var moved=stageImgs.splice(dragSrcIdx,1)[0];
+      stageImgs.splice(toIdx,0,moved);
+      renderImgItems();
+    });
     list.appendChild(d);
   });
   list.querySelectorAll('[data-idx]').forEach(function(ta){
@@ -2084,9 +2265,14 @@ function renderJuryProjects(){
   var grid=g('jury-proj-grid'),empty=g('jury-proj-empty');
   grid.innerHTML='';
   var js=g('jury-search');
-  if(js&&!js._bound){js._bound=true;js.addEventListener('input',renderJuryProjects);}
+  if(js&&!js._bound){js._bound=true;js.addEventListener('input',function(){juryPage=1;renderJuryProjects();});}
+  var jsw=g('jury-sort-wrap');
+  if(jsw&&!jsw.querySelector('select')){jsw.innerHTML=sortSelectHtml('jury-sort','');var jsel=jsw.querySelector('select');if(jsel)jsel.addEventListener('change',function(){juryPage=1;renderJuryProjects();});}
+  var sortId=(g('jury-sort')||{}).value||'';
+  var evMapJ=DB.evaluations.reduce(function(a,e){if(e.published)a[e.projectId]=(a[e.projectId]||0)+1;return a;},{});
   var srch=(js?js.value:'').trim().toLowerCase();
-  var projects=DB.projects.filter(function(p){return !srch||p.name.toLowerCase().indexOf(srch)!==-1;});
+  var allJuryProj=sortedProjects(DB.projects.filter(function(p){return !srch||p.name.toLowerCase().indexOf(srch)!==-1;}),sortId,evMapJ);
+  var projects=allJuryProj.slice(0,juryPage*PAGE_SIZE);
   if(!projects.length){empty.style.display='block';grid.style.display='none';return;}
   empty.style.display='none';grid.style.display='grid';
   projects.forEach(function(p){
@@ -2110,6 +2296,15 @@ function renderJuryProjects(){
   document.querySelectorAll('[data-eval]').forEach(function(btn){
     btn.addEventListener('click',function(){openEvalFs(this.dataset.eval);});
   });
+  // Show More for jury
+  var jsmw=document.querySelector('#jury-proj-grid+.show-more-wrap');if(jsmw)jsmw.remove();
+  if(projects.length<allJuryProj.length){
+    var jwrap=document.createElement('div');jwrap.className='show-more-wrap';
+    var jsmBtn=document.createElement('button');jsmBtn.className='btn btn-secondary';
+    jsmBtn.textContent=t('show_more')+' ('+(allJuryProj.length-projects.length)+')';
+    jsmBtn.onclick=function(){juryPage++;renderJuryProjects();};
+    jwrap.appendChild(jsmBtn);grid.insertAdjacentElement('afterend',jwrap);
+  }
 }
 function renderJuryMyEvals(){
   var c=g('jury-evals-list'),empty=g('jury-evals-empty');
@@ -2134,6 +2329,27 @@ function renderJuryMyEvals(){
   });
 }
 
+/* ══ CSV EXPORT ══ */
+function exportEvalsCsv(){
+  var CRITERIA=getCriteria();
+  var rows=[['المحكّم','المشروع','الدرجة الإجمالية','الحالة'].concat(CRITERIA.map(function(q,i){return 'م'+(i+1);})).concat(['التعليق'])];
+  DB.evaluations.forEach(function(ev){
+    var juror=DB.users.filter(function(u){return u.id===ev.juryId;})[0];
+    var proj=DB.projects.filter(function(p){return p.id===ev.projectId;})[0];
+    var avg=(num(ev.rawScore)/10).toFixed(1);
+    rows.push(
+      [(juror?juror.name:ev.juryId),(proj?proj.name:ev.projectId),avg,ev.published?'منشور':'مسودة']
+      .concat(ev.scores.map(String))
+      .concat([ev.comment||''])
+    );
+  });
+  var csv=rows.map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
+  var blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='majaaz-evaluations-'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();URL.revokeObjectURL(a.href);
+}
+
 /* ══ BINDINGS ══ */
 g('btn-go-auth').onclick=function(){showView('auth');};
 g('btn-back-public').onclick=function(){showView('public');};
@@ -2154,21 +2370,48 @@ if(btnSaveCrit){
     var newAr=[],newEn=[];
     document.querySelectorAll('.crit-ar').forEach(function(ta){newAr.push(ta.value.trim()||DEFAULT_CRITERIA.ar[parseInt(ta.dataset.idx)]);});
     document.querySelectorAll('.crit-en').forEach(function(ta){newEn.push(ta.value.trim()||DEFAULT_CRITERIA.en[parseInt(ta.dataset.idx)]);});
-    customCriteria={ar:newAr,en:newEn};
-    toast(t('t_criteria_saved'));
+    btnSaveCrit.disabled=true;
+    api('admin_save_criteria.php',{ar:newAr,en:newEn})
+    .then(function(d){
+      btnSaveCrit.disabled=false;
+      if(!d.ok){toast(d.error||'Error','err');return;}
+      customCriteria={ar:newAr,en:newEn};
+      toast(t('t_criteria_saved'));
+    }).catch(function(){btnSaveCrit.disabled=false;toast('Network error','err');});
   };
 }
 var btnResetCrit=g('btn-reset-criteria');
 if(btnResetCrit){
   btnResetCrit.onclick=function(){
-    if(!confirm(t('t_criteria_reset')+'?'))return;
-    customCriteria=null;renderCriteriaEditor();toast(t('t_criteria_reset'));
+    customConfirm(t('t_criteria_reset')+'؟',function(){
+      customCriteria=null;renderCriteriaEditor();toast(t('t_criteria_reset'));
+    });
   };
 }
 document.querySelectorAll('[data-admin-tab]').forEach(function(btn){btn.onclick=function(){adminTab(this.dataset.adminTab);};});
 document.querySelectorAll('[data-jury-tab]').forEach(function(btn){btn.onclick=function(){juryTab(this.dataset.juryTab);};});
 document.querySelectorAll('[data-close]').forEach(function(btn){btn.onclick=function(){closeModal(this.dataset.close);if(this.dataset.close==='modal-add-project')closeEditMode();};});
 g('lang-btn').onclick=function(){toggleLang();};
+var btnExportCsv=g('btn-export-csv');if(btnExportCsv)btnExportCsv.onclick=exportEvalsCsv;
+var btnPreviewCrit=g('btn-preview-criteria');
+if(btnPreviewCrit){
+  btnPreviewCrit.onclick=function(){
+    var CRITERIA=[];
+    document.querySelectorAll('.crit-ar').forEach(function(ta){CRITERIA.push(ta.value.trim()||DEFAULT_CRITERIA.ar[parseInt(ta.dataset.idx)]);});
+    if(!CRITERIA.length)CRITERIA=getCriteria();
+    var LIKERT=getLikert();
+    var body=g('criteria-preview-body');
+    body.innerHTML='<div style="font-size:12px;color:var(--am);margin-bottom:14px;padding:8px 12px;background:var(--amb);border-radius:var(--rmd);">هذه معاينة فقط — لا يمكن التفاعل معها</div>'
+      +CRITERIA.map(function(q,i){
+        return '<div class="lk-card" style="margin-bottom:10px;">'
+          +'<div class="lk-q"><span class="lk-qn">'+(i+1)+'.</span>'+q+'</div>'
+          +'<div class="lk-scale">'+LIKERT.map(function(lk){
+            return '<button class="lk-opt" disabled style="cursor:default;opacity:.7;"><span class="lk-v">'+lk.v+'</span>'+lk.l+'</button>';
+          }).join('')+'</div></div>';
+      }).join('');
+    openModal('modal-criteria-preview');
+  };
+}
 
 /* ══ SKELETON RENDERER ══ */
 function skelCard(pub){

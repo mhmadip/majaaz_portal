@@ -89,11 +89,20 @@ if ($sessionUser && ($sessionUser['role'] ?? '') === 'admin') {
   }
 }
 
+/* ══ CRITERIA ══ */
+$criteriaPath = __DIR__ . "/../criteria.json";
+$savedCriteria = null;
+if (file_exists($criteriaPath)) {
+  $raw = file_get_contents($criteriaPath);
+  if ($raw) $savedCriteria = json_decode($raw, true);
+}
+
 json_out([
   "ok"          => true,
   "me"          => $me,
   "users"       => $users,
   "projects"    => $outProjects,
   "evaluations" => $outEvals,
-  "csrfToken"   => csrf_token()
+  "csrfToken"   => csrf_token(),
+  "criteria"    => $savedCriteria,
 ]);
