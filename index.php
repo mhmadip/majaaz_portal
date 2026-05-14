@@ -1559,6 +1559,7 @@ function renderEvalForm(pid,ex,lsComment){
   var body=g('eval-form-body');
   var CRITERIA=getCriteria();
   var bar=g('eval-action-bar');
+  body.className='eval-form';
   if(ex&&ex.published){
     var pct=num(ex.rawScore)/MAX*100;
     body.innerHTML='<div class="ef-title">'+t('eval_result')+'</div><div class="ef-sub">'+t('published_final')+'</div>'
@@ -1747,7 +1748,7 @@ function renderPublic(){
   var ps=g('pub-search');
   if(ps&&!ps._bound){ps._bound=true;ps.addEventListener('input',function(){pubPage=1;renderPublic();});}
   var sw=g('pub-sort-wrap');
-  if(sw&&!sw.querySelector('select')){sw.innerHTML=sortSelectHtml('pub-sort','');var sel=sw.querySelector('select');if(sel)sel.addEventListener('change',function(){pubPage=1;renderPublic();});}
+  if(sw){var _pv=(g('pub-sort')||{}).value||'';sw.innerHTML=sortSelectHtml('pub-sort',_pv);var sel=sw.querySelector('select');if(sel)sel.addEventListener('change',function(){pubPage=1;renderPublic();});}
   var sortId=(g('pub-sort')||{}).value||'';
   var srch=(ps?ps.value:'').trim().toLowerCase();
   var filtered=sortedProjects(DB.projects.filter(function(p){return !srch||p.name.toLowerCase().indexOf(srch)!==-1;}),sortId,evMap);
@@ -1878,7 +1879,7 @@ function renderAdminProjects(){
   var aps=g('admin-proj-search');
   if(aps&&!aps._bound){aps._bound=true;aps.addEventListener('input',function(){adminPage=1;renderAdminProjects();});}
   var asw=g('admin-sort-wrap');
-  if(asw&&!asw.querySelector('select')){asw.innerHTML=sortSelectHtml('admin-sort','');var asel=asw.querySelector('select');if(asel)asel.addEventListener('change',function(){adminPage=1;renderAdminProjects();});}
+  if(asw){var _av=(g('admin-sort')||{}).value||'';asw.innerHTML=sortSelectHtml('admin-sort',_av);var asel=asw.querySelector('select');if(asel)asel.addEventListener('change',function(){adminPage=1;renderAdminProjects();});}
   var sortId=(g('admin-sort')||{}).value||'';
   var evMapA=DB.evaluations.reduce(function(a,e){if(e.published)a[e.projectId]=(a[e.projectId]||0)+1;return a;},{});
   var srch=(aps?aps.value:'').trim().toLowerCase();
@@ -2239,6 +2240,7 @@ function doLogin(){
       +'</div>';
     document.body.appendChild(overlay);
     return loadData().then(function(){
+      resetPages();
       setTimeout(function(){
         overlay.style.animation='successFade .35s ease forwards';
         setTimeout(function(){
@@ -2251,13 +2253,15 @@ function doLogin(){
   }).catch(function(){toast('Network error','err');btn.disabled=false;});
 }
 
+function resetPages(){pubPage=1;adminPage=1;juryPage=1;}
 function doLogout(){
   api('logout.php',{}).then(function(){
     DB.currentUser=null;DB.users=[];DB.projects=[];DB.evaluations=[];
+    resetPages();
     g('login-email').value='';g('login-pass').value='';
     loadData().then(function(){showView('public');});
   }).catch(function(){
-    DB.currentUser=null;g('login-email').value='';g('login-pass').value='';
+    DB.currentUser=null;resetPages();g('login-email').value='';g('login-pass').value='';
     showView('public');
   });
 }
@@ -2283,7 +2287,7 @@ function renderJuryProjects(){
   var js=g('jury-search');
   if(js&&!js._bound){js._bound=true;js.addEventListener('input',function(){juryPage=1;renderJuryProjects();});}
   var jsw=g('jury-sort-wrap');
-  if(jsw&&!jsw.querySelector('select')){jsw.innerHTML=sortSelectHtml('jury-sort','');var jsel=jsw.querySelector('select');if(jsel)jsel.addEventListener('change',function(){juryPage=1;renderJuryProjects();});}
+  if(jsw){var _jv=(g('jury-sort')||{}).value||'';jsw.innerHTML=sortSelectHtml('jury-sort',_jv);var jsel=jsw.querySelector('select');if(jsel)jsel.addEventListener('change',function(){juryPage=1;renderJuryProjects();});}
   var sortId=(g('jury-sort')||{}).value||'';
   var evMapJ=DB.evaluations.reduce(function(a,e){if(e.published)a[e.projectId]=(a[e.projectId]||0)+1;return a;},{});
   var srch=(js?js.value:'').trim().toLowerCase();
@@ -2442,7 +2446,7 @@ if(btnPreviewCrit){
 /* ══ SKELETON RENDERER ══ */
 function skelCard(pub){
   var imgH=pub?'skel-pub-img':'skel-img';
-  return '<div class="skel-card'+(pub?'pub-card':'pc')+'">'
+  return '<div class="skel-card '+(pub?'pub-card':'pc')+'">'
     +'<div class="skel '+imgH+'"></div>'
     +'<div class="skel-body">'
     +'<div class="skel skel-line"></div>'
