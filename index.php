@@ -2426,7 +2426,9 @@ var btnPreviewCrit=g('btn-preview-criteria');
 if(btnPreviewCrit){
   btnPreviewCrit.onclick=function(){
     var CRITERIA=[];
-    document.querySelectorAll('.crit-ar').forEach(function(ta){CRITERIA.push(ta.value.trim()||DEFAULT_CRITERIA.ar[parseInt(ta.dataset.idx)]);});
+    var critClass=LANG==='ar'?'.crit-ar':'.crit-en';
+    var critDefault=LANG==='ar'?DEFAULT_CRITERIA.ar:DEFAULT_CRITERIA.en;
+    document.querySelectorAll(critClass).forEach(function(ta){CRITERIA.push(ta.value.trim()||critDefault[parseInt(ta.dataset.idx)]);});
     if(!CRITERIA.length)CRITERIA=getCriteria();
     var LIKERT=getLikert();
     var body=g('criteria-preview-body');
