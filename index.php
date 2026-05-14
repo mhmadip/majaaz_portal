@@ -872,7 +872,7 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
 
 <!-- ══ CRITERIA PREVIEW MODAL ══ -->
 <div class="overlay" id="modal-criteria-preview">
-  <div class="modal" style="max-width:640px;">
+  <div class="modal" style="max-width:860px;">
     <div class="modal-hd">
       <div class="modal-hd-title" id="criteria-preview-title">👁 معاينة معايير التقييم</div>
       <button class="btn btn-ghost btn-sm btn-icon" data-close="modal-criteria-preview">✕</button>
@@ -2425,21 +2425,29 @@ var btnExportCsv=g('btn-export-csv');if(btnExportCsv)btnExportCsv.onclick=export
 var btnPreviewCrit=g('btn-preview-criteria');
 if(btnPreviewCrit){
   btnPreviewCrit.onclick=function(){
-    var CRITERIA=[];
-    var critClass=LANG==='ar'?'.crit-ar':'.crit-en';
-    var critDefault=LANG==='ar'?DEFAULT_CRITERIA.ar:DEFAULT_CRITERIA.en;
-    document.querySelectorAll(critClass).forEach(function(ta){CRITERIA.push(ta.value.trim()||critDefault[parseInt(ta.dataset.idx)]);});
-    if(!CRITERIA.length)CRITERIA=getCriteria();
-    var LIKERT=getLikert();
+    var AR=[],EN=[];
+    document.querySelectorAll('.crit-ar').forEach(function(ta){AR.push(ta.value.trim()||DEFAULT_CRITERIA.ar[parseInt(ta.dataset.idx)]);});
+    document.querySelectorAll('.crit-en').forEach(function(ta){EN.push(ta.value.trim()||DEFAULT_CRITERIA.en[parseInt(ta.dataset.idx)]);});
+    if(!AR.length){AR=DEFAULT_CRITERIA.ar.slice();EN=DEFAULT_CRITERIA.en.slice();}
+    var LKar=[{l:'أرفض بشدة',v:2},{l:'أرفض',v:4},{l:'محايد',v:6},{l:'أوافق',v:8},{l:'أوافق بشدة',v:10}];
+    var LKen=[{l:'Strongly Disagree',v:2},{l:'Disagree',v:4},{l:'Neutral',v:6},{l:'Agree',v:8},{l:'Strongly Agree',v:10}];
+    var mkOpts=function(lks){return lks.map(function(lk){return '<button class="lk-opt" disabled style="cursor:default;opacity:.7;font-size:9px;padding:6px 2px;"><span class="lk-v">'+lk.v+'</span>'+lk.l+'</button>';}).join('');};
     var body=g('criteria-preview-body');
     var ptitle=g('criteria-preview-title');if(ptitle)ptitle.textContent='👁 '+t('preview_criteria_title');
-    body.innerHTML='<div style="font-size:12px;color:var(--am);margin-bottom:14px;padding:8px 12px;background:var(--amb);border-radius:var(--rmd);">'+t('preview_read_only')+'</div>'
-      +CRITERIA.map(function(q,i){
-        return '<div class="lk-card" style="margin-bottom:10px;">'
-          +'<div class="lk-q"><span class="lk-qn">'+(i+1)+'.</span>'+q+'</div>'
-          +'<div class="lk-scale">'+LIKERT.map(function(lk){
-            return '<button class="lk-opt" disabled style="cursor:default;opacity:.7;"><span class="lk-v">'+lk.v+'</span>'+lk.l+'</button>';
-          }).join('')+'</div></div>';
+    body.innerHTML='<div style="font-size:12px;color:var(--am);margin-bottom:16px;padding:8px 12px;background:var(--amb);border-radius:var(--rmd);">'+t('preview_read_only')+'</div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--b1);border-radius:var(--rlg);overflow:hidden;margin-bottom:10px;">'
+      +'<div style="padding:9px 14px;background:var(--s3);font-size:11px;font-weight:600;color:var(--cyan);font-family:\'IBM Plex Mono\',monospace;text-align:right;direction:rtl;border-bottom:1px solid var(--b1);">العربية</div>'
+      +'<div style="padding:9px 14px;background:var(--s3);font-size:11px;font-weight:600;color:var(--gold);font-family:\'IBM Plex Mono\',monospace;direction:ltr;border-bottom:1px solid var(--b1);border-right:1px solid var(--b1);">English</div>'
+      +'</div>'
+      +AR.map(function(q,i){
+        return '<div style="display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--b1);border-radius:var(--rlg);overflow:hidden;margin-bottom:8px;">'
+          +'<div style="padding:12px 14px;background:var(--s2);direction:rtl;">'
+          +'<div class="lk-q" style="margin-bottom:8px;"><span class="lk-qn">'+(i+1)+'.</span>'+q+'</div>'
+          +'<div class="lk-scale">'+mkOpts(LKar)+'</div></div>'
+          +'<div style="padding:12px 14px;background:var(--s2);border-right:1px solid var(--b1);direction:ltr;">'
+          +'<div class="lk-q" style="margin-bottom:8px;font-family:\'Inter\',sans-serif;"><span class="lk-qn">'+(i+1)+'.</span>'+(EN[i]||'')+'</div>'
+          +'<div class="lk-scale">'+mkOpts(LKen)+'</div></div>'
+          +'</div>';
       }).join('');
     openModal('modal-criteria-preview');
   };
