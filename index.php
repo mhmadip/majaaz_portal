@@ -874,7 +874,7 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
 <div class="overlay" id="modal-criteria-preview">
   <div class="modal" style="max-width:640px;">
     <div class="modal-hd">
-      <div class="modal-hd-title">👁 معاينة معايير التقييم</div>
+      <div class="modal-hd-title" id="criteria-preview-title">👁 معاينة معايير التقييم</div>
       <button class="btn btn-ghost btn-sm btn-icon" data-close="modal-criteria-preview">✕</button>
     </div>
     <div class="modal-bd" id="criteria-preview-body" style="max-height:70vh;overflow-y:auto;"></div>
@@ -1161,6 +1161,13 @@ var STRINGS = {
     sort_default: 'الترتيب الافتراضي', sort_az: 'أ → ي', sort_za: 'ي → أ',
     sort_most_eval: 'الأكثر تقييماً', sort_least_eval: 'الأقل تقييماً',
     show_more: 'عرض المزيد',
+    kbd_nav: 'تنقل', kbd_zoom: 'تكبير',
+    csv_juror: 'المحكّم', csv_project: 'المشروع', csv_total: 'الدرجة الإجمالية',
+    csv_status: 'الحالة', csv_published_val: 'منشور', csv_draft_val: 'مسودة',
+    preview_criteria_title: 'معاينة معايير التقييم',
+    preview_read_only: 'معاينة فقط — لا يمكن التفاعل معها',
+    drag_reorder: 'اسحب لإعادة الترتيب',
+    confirm_ok: 'تأكيد', confirm_reset: 'إعادة', confirm_cancel_action: 'إلغاء التقييم',
   },
   en: {
     brand: 'Majaaz',
@@ -1283,6 +1290,13 @@ var STRINGS = {
     sort_default: 'Default', sort_az: 'A → Z', sort_za: 'Z → A',
     sort_most_eval: 'Most Evaluated', sort_least_eval: 'Least Evaluated',
     show_more: 'Show More',
+    kbd_nav: 'Navigate', kbd_zoom: 'Zoom',
+    csv_juror: 'Juror', csv_project: 'Project', csv_total: 'Total Score',
+    csv_status: 'Status', csv_published_val: 'Published', csv_draft_val: 'Draft',
+    preview_criteria_title: 'Evaluation Criteria Preview',
+    preview_read_only: 'Preview only — interaction disabled',
+    drag_reorder: 'Drag to reorder',
+    confirm_ok: 'Confirm', confirm_reset: 'Reset', confirm_cancel_action: 'Cancel Evaluation',
   }
 };
 var LANG = 'ar';
@@ -1338,10 +1352,12 @@ function toast(msg,type){
   w.appendChild(el);
   setTimeout(function(){el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(function(){el.remove();},300);},3000);
 }
-function customConfirm(msg,onOk,onCancel){
+function customConfirm(msg,onOk,onCancel,okLabel){
   var ov=g('confirm-overlay'),cm=g('confirm-msg'),cok=g('confirm-ok'),ccan=g('confirm-cancel');
   cm.textContent=msg;
-  cok.textContent=t('delete');ccan.textContent=t('cancel');
+  cok.textContent=okLabel||t('confirm_ok');
+  cok.className='btn '+(okLabel===t('delete')||!okLabel?'btn-danger':'btn-primary');
+  ccan.textContent=t('cancel');
   ov.classList.add('open');
   function cleanup(){ov.classList.remove('open');cok.onclick=null;ccan.onclick=null;}
   cok.onclick=function(){cleanup();if(onOk)onOk();};
@@ -1415,7 +1431,7 @@ function buildCar(items){
   var oldHint=vp.querySelector('.kbd-hint');if(oldHint)oldHint.remove();
   if(items.length>0&&!localStorage.getItem('kbd_hint_seen')){
     var hint=document.createElement('div');hint.className='kbd-hint';
-    hint.innerHTML='<span class="kbd-key">←</span><span class="kbd-key">→</span> تنقل &nbsp; <span class="kbd-key">+</span><span class="kbd-key">−</span> تكبير';
+    hint.innerHTML='<span class="kbd-key">←</span><span class="kbd-key">→</span> '+t('kbd_nav')+' &nbsp; <span class="kbd-key">+</span><span class="kbd-key">−</span> '+t('kbd_zoom');
     vp.appendChild(hint);
     setTimeout(function(){hint.classList.add('hidden');setTimeout(function(){hint.remove();},400);},3000);
     localStorage.setItem('kbd_hint_seen','1');
@@ -1908,7 +1924,7 @@ function renderAdminProjects(){
           return loadData();
         }).then(function(){renderAdminProjects();})
         .catch(function(){toast('Network error','err');btn.disabled=false;});
-      });
+      },null,t('delete'));
     });
   });
 }
@@ -1993,7 +2009,7 @@ function renderAdminJury(){
           toast(t('t_member_deleted'));return loadData();
         }).then(function(){renderAdminJury();})
         .catch(function(){toast('Network error','err');btn.disabled=false;});
-      });
+      },null,t('delete'));
     });
   });
 }
@@ -2048,7 +2064,7 @@ function renderAdminEvals(){
           toast(t('t_eval_cancelled'));return loadData();
         }).then(function(){renderAdminEvals();})
         .catch(function(){toast('Network error','err');btn.disabled=false;});
-      });
+      },null,t('confirm_cancel_action'));
     });
   });
 }
@@ -2085,7 +2101,7 @@ function renderImgItems(){
   var dragSrcIdx=null;
   stageImgs.forEach(function(img,i){
     var d=document.createElement('div');d.className='img-item';d.draggable=true;d.dataset.di=i;
-    d.innerHTML='<span class="drag-handle" title="اسحب لإعادة الترتيب">⠿</span>'
+    d.innerHTML='<span class="drag-handle" title="'+t('drag_reorder')+'">⠿</span>'
       +'<img class="img-item-th" src="'+img.dataUrl+'">'
       +'<div class="img-item-body"><div class="img-item-name">'+img.name+'</div>'
       +'<textarea class="input" rows="4" placeholder="'+t('img_optional_desc')+'" data-idx="'+i+'" style="font-size:11px;padding:7px 9px;resize:vertical;margin-top:4px;">'+img.desc+'</textarea></div>'
@@ -2332,13 +2348,16 @@ function renderJuryMyEvals(){
 /* ══ CSV EXPORT ══ */
 function exportEvalsCsv(){
   var CRITERIA=getCriteria();
-  var rows=[['المحكّم','المشروع','الدرجة الإجمالية','الحالة'].concat(CRITERIA.map(function(q,i){return 'م'+(i+1);})).concat(['التعليق'])];
+  var critLabel=LANG==='ar'?'م':'C';
+  var rows=[[t('csv_juror'),t('csv_project'),t('csv_total'),t('csv_status')]
+    .concat(CRITERIA.map(function(q,i){return critLabel+(i+1);}))
+    .concat([t('comment_label')])];
   DB.evaluations.forEach(function(ev){
     var juror=DB.users.filter(function(u){return u.id===ev.juryId;})[0];
     var proj=DB.projects.filter(function(p){return p.id===ev.projectId;})[0];
     var avg=(num(ev.rawScore)/10).toFixed(1);
     rows.push(
-      [(juror?juror.name:ev.juryId),(proj?proj.name:ev.projectId),avg,ev.published?'منشور':'مسودة']
+      [(juror?juror.name:ev.juryId),(proj?proj.name:ev.projectId),avg,ev.published?t('csv_published_val'):t('csv_draft_val')]
       .concat(ev.scores.map(String))
       .concat([ev.comment||''])
     );
@@ -2385,7 +2404,7 @@ if(btnResetCrit){
   btnResetCrit.onclick=function(){
     customConfirm(t('t_criteria_reset')+'؟',function(){
       customCriteria=null;renderCriteriaEditor();toast(t('t_criteria_reset'));
-    });
+    },null,t('confirm_reset'));
   };
 }
 document.querySelectorAll('[data-admin-tab]').forEach(function(btn){btn.onclick=function(){adminTab(this.dataset.adminTab);};});
@@ -2401,7 +2420,8 @@ if(btnPreviewCrit){
     if(!CRITERIA.length)CRITERIA=getCriteria();
     var LIKERT=getLikert();
     var body=g('criteria-preview-body');
-    body.innerHTML='<div style="font-size:12px;color:var(--am);margin-bottom:14px;padding:8px 12px;background:var(--amb);border-radius:var(--rmd);">هذه معاينة فقط — لا يمكن التفاعل معها</div>'
+    var ptitle=g('criteria-preview-title');if(ptitle)ptitle.textContent='👁 '+t('preview_criteria_title');
+    body.innerHTML='<div style="font-size:12px;color:var(--am);margin-bottom:14px;padding:8px 12px;background:var(--amb);border-radius:var(--rmd);">'+t('preview_read_only')+'</div>'
       +CRITERIA.map(function(q,i){
         return '<div class="lk-card" style="margin-bottom:10px;">'
           +'<div class="lk-q"><span class="lk-qn">'+(i+1)+'.</span>'+q+'</div>'
