@@ -2403,7 +2403,13 @@ var btnResetCrit=g('btn-reset-criteria');
 if(btnResetCrit){
   btnResetCrit.onclick=function(){
     customConfirm(t('t_criteria_reset')+'؟',function(){
-      customCriteria=null;renderCriteriaEditor();toast(t('t_criteria_reset'));
+      btnResetCrit.disabled=true;
+      api('admin_save_criteria.php',{ar:DEFAULT_CRITERIA.ar,en:DEFAULT_CRITERIA.en})
+      .then(function(d){
+        btnResetCrit.disabled=false;
+        if(!d.ok){toast(d.error||'Error','err');return;}
+        customCriteria=null;renderCriteriaEditor();toast(t('t_criteria_reset'));
+      }).catch(function(){btnResetCrit.disabled=false;toast('Network error','err');});
     },null,t('confirm_reset'));
   };
 }
