@@ -3,3 +3,4 @@ criteria.json
 api/error_log
 uploads/*
 !uploads/.htaccess
+.DS_Store
