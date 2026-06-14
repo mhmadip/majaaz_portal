@@ -1,0 +1,5 @@
+config.php
+criteria.json
+api/error_log
+uploads/*
+!uploads/.htaccess
