@@ -1824,12 +1824,9 @@ function showProjectDetail(pid){
     evHtml+=pubEvals.map(function(ev){
       var juror=DB.users.filter(function(u){return u.id===ev.juryId;})[0];
       var jurorName=ev.juryName||(juror?juror.name:t('juror_default'));
-      var pct=num(ev.rawScore)/MAX*100;
-      var avg=(num(ev.rawScore)/10).toFixed(1);
       return '<div class="er"><div class="er-hd">'
         +'<div><div class="er-name">👤 '+jurorName+'</div></div>'
-        +'<div style="text-align:'+(LANG==='ar'?'left':'right')+'"><div class="er-score-big">'+avg+' / 10</div></div>'
-        +'</div><div class="er-bar"><div class="er-bar-fill" style="width:'+pct+'%"></div></div>'
+        +'</div>'
         +(ev.comment?'<div class="er-comment">'+ev.comment+'</div>':'')
         +'</div>';
     }).join('');
