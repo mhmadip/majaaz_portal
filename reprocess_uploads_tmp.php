@@ -55,7 +55,7 @@ foreach (scandir($dir) as $f) {
   $encoded = ob_get_clean();
   if (!$ok || $encoded === false || $encoded === '') { echo "FAIL to encode: $f\n"; continue; }
 
-  $final = (!$wasResized && strlen($encoded) >= strlen($bin)) ? $bin : $encoded;
+  $final = (strlen($encoded) < strlen($bin)) ? $encoded : $bin;
   $usedOriginal = $final === $bin;
   if ($usedOriginal) $kept++;
 
