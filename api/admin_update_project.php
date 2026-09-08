@@ -22,12 +22,12 @@ try {
   if ($cover !== '' && str_starts_with($cover, 'data:')) {
     [$relPath, $_] = save_data_url_image($cover);
     $pdo->prepare("INSERT INTO project_images (project_id, file_path, description, is_cover) VALUES (?,?,?,1)")
-        ->execute([$pid, $relPath, null, 1]);
+        ->execute([$pid, $relPath, null]);
   } elseif ($cover !== '' && !str_starts_with($cover, 'data:')) {
     // Existing server path — re-insert as cover record
     $filePath = ltrim(str_replace('/majaaz_portal/', '', $cover), '/');
     $pdo->prepare("INSERT INTO project_images (project_id, file_path, description, is_cover) VALUES (?,?,?,1)")
-        ->execute([$pid, $filePath, null, 1]);
+        ->execute([$pid, $filePath, null]);
   }
   // Save other images
   foreach ($images as $im) {
@@ -38,11 +38,11 @@ try {
     if (str_starts_with($du, 'data:')) {
       [$relPath, $_] = save_data_url_image($du);
       $pdo->prepare("INSERT INTO project_images (project_id, file_path, description, is_cover) VALUES (?,?,?,0)")
-          ->execute([$pid, $relPath, ($desc!==''?$desc:null), 0]);
+          ->execute([$pid, $relPath, ($desc!==''?$desc:null)]);
     } else {
       $filePath = ltrim(str_replace('/majaaz_portal/', '', $du), '/');
       $pdo->prepare("INSERT INTO project_images (project_id, file_path, description, is_cover) VALUES (?,?,?,0)")
-          ->execute([$pid, $filePath, ($desc!==''?$desc:null), 0]);
+          ->execute([$pid, $filePath, ($desc!==''?$desc:null)]);
     }
   }
   // If no cover set but images exist, promote first
