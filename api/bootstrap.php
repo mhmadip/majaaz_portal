@@ -56,8 +56,16 @@ $evals = $pdo->query("
   ORDER BY e.id DESC
 ")->fetchAll();
 
+$viewerRole = $sessionUser['role'] ?? null;
+$viewerId   = $sessionUser ? (int)$sessionUser['id'] : null;
+
 $outEvals = [];
 foreach ($evals as $e) {
+  $isPublished = (int)$e['published'] === 1;
+  $isMine      = $viewerId !== null && (int)$e['jury_id'] === $viewerId;
+  // Public/unauthenticated: published only. Jury: published + their own drafts. Admin: everything.
+  if (!$isPublished && $viewerRole !== 'admin' && !$isMine) continue;
+
   $scores = json_decode($e['scores_json'], true);
   if (!is_array($scores)) $scores = [];
   $outEvals[] = [

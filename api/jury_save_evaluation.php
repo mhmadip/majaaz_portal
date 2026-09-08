@@ -79,6 +79,11 @@ $evals = $pdo->query("
 
 $outEvals = [];
 foreach ($evals as $e) {
+  $isPublished = (int)$e['published'] === 1;
+  $isMine      = (int)$e['jury_id'] === $juryId;
+  // Jury only sees published evaluations plus their own drafts, never other jury members' drafts.
+  if (!$isPublished && !$isMine) continue;
+
   $s = json_decode($e['scores_json'], true);
   if (!is_array($s)) $s = [];
   $outEvals[] = [
