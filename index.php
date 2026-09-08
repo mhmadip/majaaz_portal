@@ -9,7 +9,7 @@ $logoB64 = 'data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTE
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="csrf-token" id="csrf-meta" content="">
-<title>مجاز ٢٠٢٦ — Majaaz 2026</title>
+<title>مجاز ٢٠٢٦ — Majaz 2026</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>م</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Amiri:wght@400;700&family=IBM+Plex+Mono:wght@400;600&family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -1174,16 +1174,16 @@ var STRINGS = {
     export_csv: 'تصدير CSV',
   },
   en: {
-    brand: 'Majaaz',
+    brand: 'Majaz',
     nav_login: '🔐 Jury Login',
     hero_pill: 'Architectural Competition · Iraq 2026',
-    hero_title: 'Majaaz Architectural<br>Competition Portal',
+    hero_title: 'Majaz Architectural<br>Competition Portal',
     hero_sub: 'Browse submitted projects and view jury evaluation results',
     kpi_projects: 'Projects', kpi_evaluated: 'Evaluated', kpi_published: 'Published Reviews',
     all_projects: 'All Projects',
     no_projects: 'No projects yet', no_projects_sub: 'Projects will appear once uploaded by admin',
     back_projects: 'Back to Projects', back: 'Back',
-    auth_title: 'Majaaz 2026',
+    auth_title: 'Majaz 2026',
     tab_admin: 'Admin Panel', tab_jury: 'Jury Member',
     auth_error: 'Incorrect email or password',
     email: 'Email address', password: 'Password',
