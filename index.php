@@ -1129,7 +1129,7 @@ var STRINGS = {
     t_member_added: 'تم إنشاء الحساب ✓', t_member_deleted: 'تم حذف العضو',
     t_pw_changed: 'تم تغيير كلمة المرور ✓', t_eval_cancelled: 'تم إلغاء التقييم — يمكن للعضو إعادته ✓',
     // Validation
-    v_all_criteria: 'يرجى الإجابة على جميع المعايير الثمانية',
+    v_all_criteria: 'يرجى الإجابة على جميع المعايير العشرة',
     v_comment_req: 'التعليق إلزامي — لا يمكن المتابعة بدونه',
     v_project_name: 'يرجى إدخال اسم المشروع',
     v_name: 'يرجى إدخال الاسم', v_email: 'يرجى إدخال بريد صحيح',
@@ -1262,7 +1262,7 @@ var STRINGS = {
     t_project_added: 'Project uploaded ✓', t_project_deleted: 'Project deleted',
     t_member_added: 'Account created ✓', t_member_deleted: 'Member removed',
     t_pw_changed: 'Password changed ✓', t_eval_cancelled: 'Evaluation cancelled — member can re-evaluate ✓',
-    v_all_criteria: 'Please rate all eight criteria',
+    v_all_criteria: 'Please rate all ten criteria',
     v_comment_req: 'Comment is required — cannot continue without it',
     v_project_name: 'Please enter a project name',
     v_name: 'Please enter a name', v_email: 'Please enter a valid email',
