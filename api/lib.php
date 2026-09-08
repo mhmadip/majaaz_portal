@@ -103,8 +103,7 @@ function save_data_url_image(string $dataUrl, string $uploadDirRel = "uploads"):
   //    high on purpose — this is not a general-purpose thumbnail resize.
   $maxDim = 3600;
   $w = imagesx($img); $h = imagesy($img);
-  $wasResized = $w > $maxDim || $h > $maxDim;
-  if ($wasResized) {
+  if ($w > $maxDim || $h > $maxDim) {
     $scale = min($maxDim / $w, $maxDim / $h);
     $nw = max(1, (int)round($w * $scale));
     $nh = max(1, (int)round($h * $scale));
@@ -115,9 +114,10 @@ function save_data_url_image(string $dataUrl, string $uploadDirRel = "uploads"):
     $img = $resized;
   }
 
-  // 8. Encode. For images we didn't resize, GD's encoder can lose to whatever
-  //    optimized encoder produced the original on high-detail/thin-line
-  //    content — so keep whichever of the two is actually smaller.
+  // 8. Encode, then keep whichever of the original or re-encoded bytes is
+  //    smaller. GD's encoder can lose to whatever optimized encoder produced
+  //    the original on high-detail/thin-line content — even after resizing,
+  //    if the resize was only slightly past maxDim.
   ob_start();
   $ok = match ($ext) {
     'jpg'  => imagejpeg($img, null, 85),
@@ -129,7 +129,7 @@ function save_data_url_image(string $dataUrl, string $uploadDirRel = "uploads"):
   if (!$ok || $encoded === false || $encoded === '') {
     throw new Exception("Cannot encode image");
   }
-  $finalBin = (!$wasResized && strlen($encoded) >= strlen($bin)) ? $bin : $encoded;
+  $finalBin = (strlen($encoded) < strlen($bin)) ? $encoded : $bin;
 
   $name = bin2hex(random_bytes(12)) . "." . $ext;
   $rel  = $uploadDirRel . "/" . $name;
