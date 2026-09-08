@@ -98,11 +98,13 @@ function save_data_url_image(string $dataUrl, string $uploadDirRel = "uploads"):
     elseif ($orientation === 8) $img = imagerotate($img, 90, 0);
   }
 
-  // 7. Downscale large images — the UI only ever displays these as thumbnails
-  //    or in a lightbox, never at original resolution
-  $maxDim = 1600;
+  // 7. Downscale only genuinely oversized images. Competition entries include
+  //    technical drawings with fine dimension text, so this ceiling is kept
+  //    high on purpose — this is not a general-purpose thumbnail resize.
+  $maxDim = 3600;
   $w = imagesx($img); $h = imagesy($img);
-  if ($w > $maxDim || $h > $maxDim) {
+  $wasResized = $w > $maxDim || $h > $maxDim;
+  if ($wasResized) {
     $scale = min($maxDim / $w, $maxDim / $h);
     $nw = max(1, (int)round($w * $scale));
     $nh = max(1, (int)round($h * $scale));
@@ -113,19 +115,27 @@ function save_data_url_image(string $dataUrl, string $uploadDirRel = "uploads"):
     $img = $resized;
   }
 
-  // 8. Write to disk with a random filename (no user-controlled path),
-  //    re-encoding to shrink file size regardless of whether it was resized
+  // 8. Encode. For images we didn't resize, GD's encoder can lose to whatever
+  //    optimized encoder produced the original on high-detail/thin-line
+  //    content — so keep whichever of the two is actually smaller.
+  ob_start();
+  $ok = match ($ext) {
+    'jpg'  => imagejpeg($img, null, 85),
+    'png'  => imagepng($img, null, 6),
+    'webp' => imagewebp($img, null, 85),
+    default => false,
+  };
+  $encoded = ob_get_clean();
+  if (!$ok || $encoded === false || $encoded === '') {
+    throw new Exception("Cannot encode image");
+  }
+  $finalBin = (!$wasResized && strlen($encoded) >= strlen($bin)) ? $bin : $encoded;
+
   $name = bin2hex(random_bytes(12)) . "." . $ext;
   $rel  = $uploadDirRel . "/" . $name;
   $abs  = __DIR__ . "/../" . $rel;
 
-  $ok = match ($ext) {
-    'jpg'  => imagejpeg($img, $abs, 78),
-    'png'  => imagepng($img, $abs, 6),
-    'webp' => imagewebp($img, $abs, 78),
-    default => false,
-  };
-  if (!$ok) {
+  if (file_put_contents($abs, $finalBin) === false) {
     throw new Exception("Cannot write image file");
   }
 
