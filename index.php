@@ -555,7 +555,7 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
 <!-- ══ LOADING OVERLAY ══ -->
 <div id="app-loading" style="position:fixed;inset:0;z-index:9999;background:var(--s0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
   <div style="width:42px;height:42px;border:3px solid var(--b2);border-top-color:var(--cyan);border-radius:50%;animation:spin .7s linear infinite;"></div>
-  <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--t3);letter-spacing:.1em;">MAJAAZ 2026</div>
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--t3);letter-spacing:.1em;">MAJAZ 2026</div>
 </div>
 <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 
@@ -564,7 +564,7 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
   <nav class="pub-nav">
     <div class="brand" id="logo-home">
       <div class="brand-icon"><img src="<?= $logoB64 ?>" style="width:100%;height:100%;object-fit:contain;"></div>
-      <div><div class="brand-name" data-i18n="brand">مجاز</div><span class="brand-sub">MAJAAZ 2026</span></div>
+      <div><div class="brand-name" data-i18n="brand">مجاز</div><span class="brand-sub">MAJAZ 2026</span></div>
     </div>
     <div style="display:flex;align-items:center;gap:10px;">
       <button class="lang-toggle" id="lang-btn">
@@ -599,7 +599,7 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
   <nav class="pub-nav">
     <div class="brand" id="detail-logo-home">
       <div class="brand-icon"><img src="<?= $logoB64 ?>" style="width:100%;height:100%;object-fit:contain;"></div>
-      <div><div class="brand-name">مجاز</div><span class="brand-sub">MAJAAZ 2026</span></div>
+      <div><div class="brand-name">مجاز</div><span class="brand-sub">MAJAZ 2026</span></div>
     </div>
     <button class="back-btn" id="detail-back"><span class="back-btn-arrow">←</span> <span data-i18n="back_projects">العودة للمشاريع</span></button>
   </nav>
@@ -617,7 +617,7 @@ body::after{content:'';position:fixed;top:0;left:0;right:0;height:70vh;backgroun
         <img src="<?= $logoB64 ?>" style="width:100%;height:100%;object-fit:contain;">
       </div>
       <div style="font-family:'Amiri',serif;font-size:19px;font-weight:700;margin-bottom:2px;" data-i18n="auth_title">مجاز ٢٠٢٦</div>
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--cyan);letter-spacing:.15em;">MAJAAZ ARCHITECTURAL COMPETITION</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--cyan);letter-spacing:.15em;">MAJAZ ARCHITECTURAL COMPETITION</div>
     </div>
     <div class="auth-err" id="auth-error">⚠️ <span data-i18n="auth_error">البريد الإلكتروني أو كلمة المرور غير صحيحة</span></div>
     <div class="field"><label class="field-label" data-i18n="email">البريد الإلكتروني</label><input class="input" type="email" id="login-email" name="username" autocomplete="username" placeholder="example@majaaz.iq"></div>
