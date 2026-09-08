@@ -79,18 +79,53 @@ function save_data_url_image(string $dataUrl, string $uploadDirRel = "uploads"):
   if ($img === false) {
     throw new Exception("File is not a valid image");
   }
-  imagedestroy($img);
 
   // 5. Determine extension
   $fmt = strtolower($m[1]);
   $ext = ($fmt === 'jpeg' || $fmt === 'jpg') ? 'jpg' : $fmt;
 
-  // 6. Write to disk with a random filename (no user-controlled path)
+  // 6. Correct orientation from EXIF before resizing (GD ignores it otherwise,
+  //    which would leave phone-camera photos rotated after re-encoding)
+  if ($ext === 'jpg' && function_exists('exif_read_data')) {
+    $stream = fopen('php://temp', 'r+');
+    fwrite($stream, $bin);
+    rewind($stream);
+    $exif = @exif_read_data($stream);
+    fclose($stream);
+    $orientation = (int)($exif['Orientation'] ?? 0);
+    if ($orientation === 3) $img = imagerotate($img, 180, 0);
+    elseif ($orientation === 6) $img = imagerotate($img, -90, 0);
+    elseif ($orientation === 8) $img = imagerotate($img, 90, 0);
+  }
+
+  // 7. Downscale large images — the UI only ever displays these as thumbnails
+  //    or in a lightbox, never at original resolution
+  $maxDim = 1600;
+  $w = imagesx($img); $h = imagesy($img);
+  if ($w > $maxDim || $h > $maxDim) {
+    $scale = min($maxDim / $w, $maxDim / $h);
+    $nw = max(1, (int)round($w * $scale));
+    $nh = max(1, (int)round($h * $scale));
+    $resized = imagecreatetruecolor($nw, $nh);
+    imagealphablending($resized, false);
+    imagesavealpha($resized, true);
+    imagecopyresampled($resized, $img, 0, 0, 0, 0, $nw, $nh, $w, $h);
+    $img = $resized;
+  }
+
+  // 8. Write to disk with a random filename (no user-controlled path),
+  //    re-encoding to shrink file size regardless of whether it was resized
   $name = bin2hex(random_bytes(12)) . "." . $ext;
   $rel  = $uploadDirRel . "/" . $name;
   $abs  = __DIR__ . "/../" . $rel;
 
-  if (file_put_contents($abs, $bin) === false) {
+  $ok = match ($ext) {
+    'jpg'  => imagejpeg($img, $abs, 78),
+    'png'  => imagepng($img, $abs, 6),
+    'webp' => imagewebp($img, $abs, 78),
+    default => false,
+  };
+  if (!$ok) {
     throw new Exception("Cannot write image file");
   }
 
