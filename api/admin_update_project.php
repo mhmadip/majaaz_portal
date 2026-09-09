@@ -29,21 +29,26 @@ try {
     $pdo->prepare("INSERT INTO project_images (project_id, file_path, description, is_cover) VALUES (?,?,?,1)")
         ->execute([$pid, $filePath, null]);
   }
-  // Save other images
+  // Save other images, preserving the order they were submitted in
+  // (the edit-project modal's drag-to-reorder list order)
+  $order = 0;
   foreach ($images as $im) {
     if (!is_array($im)) continue;
     $du = (string)($im['dataUrl'] ?? '');
     if ($du === '') continue;
     $desc = trim((string)($im['desc'] ?? ''));
+    $origName = substr(pathinfo(trim((string)($im['filename'] ?? '')), PATHINFO_BASENAME), 0, 255);
+    $origName = ($origName!==''?$origName:null);
     if (str_starts_with($du, 'data:')) {
       [$relPath, $_] = save_data_url_image($du);
-      $pdo->prepare("INSERT INTO project_images (project_id, file_path, description, is_cover) VALUES (?,?,?,0)")
-          ->execute([$pid, $relPath, ($desc!==''?$desc:null)]);
+      $pdo->prepare("INSERT INTO project_images (project_id, file_path, orig_filename, description, is_cover, sort_order) VALUES (?,?,?,?,0,?)")
+          ->execute([$pid, $relPath, $origName, ($desc!==''?$desc:null), $order]);
     } else {
       $filePath = ltrim(str_replace('/majaaz_portal/', '', $du), '/');
-      $pdo->prepare("INSERT INTO project_images (project_id, file_path, description, is_cover) VALUES (?,?,?,0)")
-          ->execute([$pid, $filePath, ($desc!==''?$desc:null)]);
+      $pdo->prepare("INSERT INTO project_images (project_id, file_path, orig_filename, description, is_cover, sort_order) VALUES (?,?,?,?,0,?)")
+          ->execute([$pid, $filePath, $origName, ($desc!==''?$desc:null), $order]);
     }
+    $order++;
   }
   // If no cover set but images exist, promote first
   $hasCover = $pdo->prepare("SELECT COUNT(*) c FROM project_images WHERE project_id=? AND is_cover=1");

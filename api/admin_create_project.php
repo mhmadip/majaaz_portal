@@ -24,15 +24,19 @@ try {
         ->execute([$projectId, $relPath, null,]);
   }
 
-  // Save other images
+  // Save other images, preserving the order they were submitted in
+  // (the add-project modal's drag-to-reorder list order)
+  $order = 0;
   foreach ($images as $im) {
     if (!is_array($im)) continue;
     $du = (string)($im['dataUrl'] ?? '');
     if ($du === '') continue;
     $desc = trim((string)($im['desc'] ?? ''));
+    $origName = substr(pathinfo(trim((string)($im['filename'] ?? '')), PATHINFO_BASENAME), 0, 255);
     [$relPath, $_] = save_data_url_image($du);
-    $pdo->prepare("INSERT INTO project_images (project_id, file_path, description, is_cover) VALUES (?,?,?,0)")
-        ->execute([$projectId, $relPath, ($desc!==''?$desc:null),]);
+    $pdo->prepare("INSERT INTO project_images (project_id, file_path, orig_filename, description, is_cover, sort_order) VALUES (?,?,?,?,0,?)")
+        ->execute([$projectId, $relPath, ($origName!==''?$origName:null), ($desc!==''?$desc:null), $order]);
+    $order++;
   }
 
   // If no cover was provided but images exist, set the latest as cover

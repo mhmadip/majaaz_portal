@@ -25,13 +25,13 @@ $projects = $pdo->query("
   ORDER BY p.id DESC
 ")->fetchAll();
 
-$imgs = $pdo->query("SELECT * FROM project_images WHERE is_cover=0 ORDER BY file_path ASC, id ASC")->fetchAll();
+$imgs = $pdo->query("SELECT * FROM project_images WHERE is_cover=0 ORDER BY sort_order ASC, id ASC")->fetchAll();
 $imgByProject = [];
 foreach ($imgs as $im) {
   $pid = (int)$im['project_id'];
   $imgByProject[$pid][] = [
     "dataUrl"  => "/majaaz_portal/" . $im['file_path'],
-    "filename" => pathinfo($im['file_path'], PATHINFO_BASENAME),
+    "filename" => $im['orig_filename'] ?: pathinfo($im['file_path'], PATHINFO_BASENAME),
     "desc"     => $im['description'] ?? ""
   ];
 }

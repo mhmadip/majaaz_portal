@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS project_images (
   orig_filename TEXT NULL,
   description   TEXT NULL,
   is_cover      TINYINT(1) NOT NULL DEFAULT 0,
+  sort_order    INT NULL DEFAULT NULL,
   uploaded_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_images_project FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
 );
